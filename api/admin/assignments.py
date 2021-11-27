@@ -1,48 +1,51 @@
-from rest_framework import serializers, status, generics, permissions
+from rest_framework import serializers, generics, status, permissions
 from rest_framework.exceptions import APIException
-from reclass.models import Notification, Subject, User
+from reclass.models import Assignment, Subject
 from .permissions import IsAdminUser
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'avatar']
 
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['id', 'title', 'subject_code']
+        fields = [
+            'id',
+            'title',
+            'subject_code',
+            'description',
+            'thumbnail',
+            'is_active',
+            'created_at',
+            'updated_at'
+        ]
 
 
-class NotificationSerializer(serializers.ModelSerializer):
-    notifier = UserSerializer(read_only=True, many=False)
+class AssignmentSerializer(serializers.ModelSerializer):
     subject = SubjectSerializer(read_only=True, many=False)
     subject_id = serializers.IntegerField(write_only=True)
 
     class Meta:
-        model = Notification
+        model = Assignment
         fields = [
             'id',
-            'notifier',
+            'subject_id',
             'subject',
             'title',
             'description',
             'attachment',
-            'is_published',
+            'submission_due',
+            'allow_submission_after_due',
+            'is_active',
             'created_at',
-            'updated_at',
-            'subject_id'
+            'updated_at'
         ]
 
     def create(self, validated_data):
         subject_id = validated_data.pop('subject_id')
         try:
             subject = Subject.objects.get(id=subject_id)
-            notification = Notification(**validated_data, subject=subject)
-            notification.save()
-            return notification
+            assignment = Assignment(**validated_data, subject=subject)
+            assignment.save()
+            return assignment
 
         except Subject.DoesNotExist:
             raise APIException(detail='Subject not found',
@@ -61,9 +64,9 @@ class NotificationSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class NotificationListView(generics.ListCreateAPIView):
-    serializer_class = NotificationSerializer
-    queryset = Notification.objects.all()
+class AssignmentListView(generics.ListCreateAPIView):
+    serializer_class = AssignmentSerializer
+    queryset = Assignment.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):
@@ -81,10 +84,10 @@ class NotificationListView(generics.ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(notifier=self.request.user)
+        return serializer.save(user=self.request.user)
 
 
-class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = NotificationSerializer
-    queryset = Notification.objects.all()
+class AssignmentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AssignmentSerializer
+    queryset = Assignment.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]

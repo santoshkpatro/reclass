@@ -3,7 +3,7 @@ from rest_framework import generics, serializers, status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from reclass.models import Subject, SubjectInvite, User
-from .permissions import IsAdminUser
+from ..permissions import IsAdminUser
 
 
 class SubjectSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 from rest_framework import serializers, generics, status, permissions
 from rest_framework.exceptions import APIException
 from reclass.models import User, Subject, Submission, Assignment
-from .permissions import IsAdminUser
+from ..permissions import IsAdminUser
 from django.core.exceptions import ObjectDoesNotExist
 
 

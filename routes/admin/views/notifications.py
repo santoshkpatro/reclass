@@ -1,7 +1,7 @@
 from rest_framework import serializers, status, generics, permissions
 from rest_framework.exceptions import APIException
 from reclass.models import Notification, Subject, User
-from .permissions import IsAdminUser
+from ..permissions import IsAdminUser
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, status, permissions, serializers
 from rest_framework.exceptions import APIException
 from reclass.models import Subject, SubjectInvite, User
-from .permissions import IsAdminUser
+from ..permissions import IsAdminUser
 
 
 class UserSerializer(serializers.ModelSerializer):

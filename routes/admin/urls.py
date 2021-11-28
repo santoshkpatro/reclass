@@ -1,10 +1,10 @@
 from django.urls import path
-from .users import UserListView, UserDetailView
-from .subjects import SubjectListView, SubjectDetailView, subject_invite
-from .invites import SubjectInviteListView, SubjectInviteDetailView
-from .notifications import NotificationListView, NotificationDetailView
-from .assignments import AssignmentListView, AssignmentDetailView
-from .submissions import SubmissionListView, SubmissionDetailView
+from .views.users import UserListView, UserDetailView
+from .views.subjects import SubjectListView, SubjectDetailView, subject_invite
+from .views.invites import SubjectInviteListView, SubjectInviteDetailView
+from .views.notifications import NotificationListView, NotificationDetailView
+from .views.assignments import AssignmentListView, AssignmentDetailView
+from .views.submissions import SubmissionListView, SubmissionDetailView
 
 urlpatterns = [
     # Users routes

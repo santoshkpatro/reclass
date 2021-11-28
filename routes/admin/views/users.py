@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework import generics, status, permissions, serializers
 from reclass.models import User
-from .permissions import IsAdminUser
+from ..permissions import IsAdminUser
 
 
 class UserSerializer(serializers.ModelSerializer):

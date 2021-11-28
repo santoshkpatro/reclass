@@ -19,7 +19,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     notifier = UserSerializer(read_only=True, many=False)
     subject = SubjectSerializer(read_only=True, many=False)
-    subject_id = serializers.IntegerField(write_only=True)
+    subject_id = serializers.IntegerField(write_only=True, required=False)
 
     class Meta:
         model = Notification
@@ -30,6 +30,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'attachment',
+            'tags',
             'is_published',
             'created_at',
             'updated_at',
@@ -37,16 +38,19 @@ class NotificationSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        subject_id = validated_data.pop('subject_id')
-        try:
-            subject = Subject.objects.get(id=subject_id)
-            notification = Notification(**validated_data, subject=subject)
-            notification.save()
-            return notification
+        if 'subject_id' in validated_data:
+            subject_id = validated_data.pop('subject_id')
+            try:
+                subject = Subject.objects.get(id=subject_id)
+                notification = Notification(**validated_data, subject=subject)
+                notification.save()
+                return notification
 
-        except Subject.DoesNotExist:
-            raise APIException(detail='Subject not found',
-                               code=status.HTTP_404_NOT_FOUND)
+            except Subject.DoesNotExist:
+                raise APIException(detail='Subject not found',
+                                   code=status.HTTP_404_NOT_FOUND)
+
+        return super().create(validated_data)
 
     def update(self, instance, validated_data):
         if 'subject_id' in validated_data:
@@ -63,7 +67,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 class NotificationListView(generics.ListCreateAPIView):
     serializer_class = NotificationSerializer
-    queryset = Notification.objects.all()
+    queryset = Notification.objects.all().order_by('-created_at')
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):

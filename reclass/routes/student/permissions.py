@@ -9,3 +9,8 @@ class IsEnrolled(permissions.BasePermission):
         if not obj.subject in Subject.active_objects.filter(enrollments__user=request.user):
             return False
         return True
+
+
+class IsOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return request.user == obj.user

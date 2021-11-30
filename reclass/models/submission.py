@@ -11,10 +11,9 @@ class Submission(models.Model):
         null=True,
         related_name='submitted'
     )
-    assignment = models.ForeignKey(
+    assignment = models.OneToOneField(
         Assignment,
         on_delete=models.CASCADE,
-        related_name='submissions'
     )
     is_complete = models.BooleanField(default=True)
     attachments = ArrayField(models.URLField(), blank=True, null=True)

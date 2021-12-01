@@ -6,6 +6,7 @@ from .assignment import Assignment
 from .submission import Submission
 from .message import Message
 from .invites import SubjectInvite
+from .schedule import Schedule
 
 __all__ = [
     'User',
@@ -15,5 +16,6 @@ __all__ = [
     'Assignment',
     'Submission',
     'Message',
-    'SubjectInvite'
+    'SubjectInvite',
+    'Schedule',
 ]

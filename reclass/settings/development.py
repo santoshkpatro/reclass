@@ -5,6 +5,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# These apps are required for having admin panel in devlopement mode only
+INSTALLED_APPS.append('django.contrib.admin')
+INSTALLED_APPS.append('django.contrib.messages')
+INSTALLED_APPS.append('django.contrib.staticfiles')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

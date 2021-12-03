@@ -13,7 +13,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
-    subject_id = serializers.IntegerField(write_only=True)
+    subject_id = serializers.IntegerField(write_only=True, required=False)
     subject = SubjectSerializer(read_only=True)
 
     class Meta:

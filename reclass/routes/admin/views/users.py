@@ -45,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserListView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('-created_at')
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):

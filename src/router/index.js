@@ -30,12 +30,27 @@ const routes = [
     path: '/admin',
     component: () => import('../pages/admin/Dashboard.vue'),
     meta: { requiresAuth: true, requiresAdmin: true },
+    props: true,
     children: [
       {
         path: '',
         name: 'AdminOverview',
         component: () => import('../pages/admin/Overview.vue'),
         meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: 'users',
+        name: 'UserList',
+        component: () => import('../pages/admin/users/UserList.vue'),
+        meta: { requiresAuth: true, requiresAdmin: true },
+        props: true,
+      },
+      {
+        path: 'users/:id',
+        name: 'UserDetail',
+        component: () => import('../pages/admin/users/UserDetail.vue'),
+        meta: { requiresAuth: true, requiresAdmin: true },
+        props: true,
       },
     ],
   },

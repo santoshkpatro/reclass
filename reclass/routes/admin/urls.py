@@ -5,6 +5,8 @@ from .views.invites import SubjectInviteListView, SubjectInviteDetailView
 from .views.notifications import NotificationListView, NotificationDetailView
 from .views.assignments import AssignmentListView, AssignmentDetailView
 from .views.submissions import SubmissionListView, SubmissionDetailView
+from .views.schedules import ScheduleListView, ScheduleDetailView
+
 
 urlpatterns = [
     # Users routes
@@ -30,5 +32,9 @@ urlpatterns = [
 
     # Submissions
     path('submissions/', SubmissionListView.as_view()),
-    path('submissions/<int:pk>/', SubmissionDetailView.as_view())
+    path('submissions/<int:pk>/', SubmissionDetailView.as_view()),
+
+    # Schedules
+    path('schedules/', ScheduleListView.as_view()),
+    path('schdules/<int:pk>/', ScheduleDetailView.as_view())
 ]

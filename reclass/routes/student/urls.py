@@ -3,6 +3,7 @@ from .views.subjects import SubjectList
 from .views.assignments import AssignmentList, AssignmentDetail, AssignmentSubmissionDetail
 from .views.notifications import NotificationList
 from .views.submissions import SubmissionList, SubmissionDetailView
+from .views.schedules import ScheduleListView
 
 
 urlpatterns = [
@@ -20,5 +21,8 @@ urlpatterns = [
 
     # Submissions
     path('submissions/', SubmissionList.as_view()),
-    path('submissions/<int:pk>/', SubmissionDetailView.as_view())
+    path('submissions/<int:pk>/', SubmissionDetailView.as_view()),
+
+    # Schedules
+    path('schedules/', ScheduleListView.as_view()),
 ]

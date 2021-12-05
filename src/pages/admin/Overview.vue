@@ -31,7 +31,7 @@
       <div class="activity my-3">
         <div class="row">
           <div class="col-9">
-            <h3>Activity Graph</h3>
+            <ActivityChart />
           </div>
           <div class="col-3">
             <div class="d-grid gap-2">
@@ -74,6 +74,7 @@ import RecentUsers from '@/components/admin/overview/RecentUsers.vue';
 import RecentSubjects from '@/components/admin/overview/RecentSubjects.vue';
 import RecentAssignments from '@/components/admin/overview/RecentAssignments.vue';
 import CountCard from '@/components/admin/overview/CountCard.vue';
+import ActivityChart from '@/components/admin/overview/ActivityChart.vue';
 
 export default {
   name: 'AdminOverview',
@@ -83,6 +84,7 @@ export default {
     RecentSubjects,
     RecentAssignments,
     CountCard,
+    ActivityChart,
   },
   data() {
     return {

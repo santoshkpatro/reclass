@@ -5,3 +5,13 @@ const http = axios.create({
 });
 
 export const getUsers = () => http.get('/users');
+
+export const getSchedules = () => http.get('/schedules');
+
+export const getSubjects = () => http.get('/subjects');
+
+export const getAssignments = () => http.get('/assignments');
+
+export const getSubmissions = () => http.get('/submissions');
+
+export const getNotifications = () => http.get('/notifications');

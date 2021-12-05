@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-3">
+      <div class="col-2">
         <Sidebar />
       </div>
       <div class="col-9">
-        <h1>Hello</h1>
+        <Topbar />
+        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -13,26 +14,19 @@
 
 <script>
 import Sidebar from '@/components/admin/Sidebar.vue';
-import { getUsers } from '@/api/admin.js';
+import Topbar from '@/components/admin/Topbar.vue';
 
 export default {
   name: 'AdminDashboard',
   components: {
     Sidebar,
+    Topbar,
   },
   data() {
     return {
       recentUsers: [],
       totalUsersCount: 0,
     };
-  },
-  mounted() {
-    getUsers()
-      .then(({ data }) => {
-        this.recentUsers = data.results;
-        this.totalUsersCount = data.count;
-      })
-      .catch((e) => console.log(e));
   },
 };
 </script>

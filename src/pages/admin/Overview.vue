@@ -116,7 +116,7 @@ export default {
     };
   },
   async mounted() {
-    const userData = await getUsers();
+    const userData = await getUsers({ limit: 10 });
     const subjectData = await getSubjects();
     const assignmentData = await getAssignments();
     const submissionData = await getSubmissions();

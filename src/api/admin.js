@@ -5,9 +5,17 @@ const http = axios.create({
 });
 
 // Users
-export const getUsers = () => http.get('/users');
+export const getUsers = (query = {}, conf = {}) =>
+  http.get(
+    '/users',
+    {
+      params: query,
+    },
+    conf
+  );
 export const getUserDetail = (id) => http.get(`/users/${id}/`);
 export const updateUser = (id, data) => http.patch(`/users/${id}/`, data);
+export const addUser = (data) => http.post('/users/', data);
 
 export const getSchedules = () => http.get('/schedules');
 

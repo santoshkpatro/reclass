@@ -28,5 +28,17 @@ export default new Vuex.Store({
     loggedIn(state) {
       return !!state.profile;
     },
+
+    role(state) {
+      if (state.profile.is_admin) {
+        return 'admin';
+      } else {
+        if (state.profile.is_instructor) {
+          return 'instructor';
+        } else {
+          return 'student';
+        }
+      }
+    },
   },
 });

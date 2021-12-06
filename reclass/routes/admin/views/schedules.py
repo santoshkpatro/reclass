@@ -68,7 +68,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 class ScheduleListView(generics.ListCreateAPIView):
     serializer_class = ScheduleSerializer
-    queryset = Schedule.objects.all()
+    queryset = Schedule.objects.all().order_by('-created_at')
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):

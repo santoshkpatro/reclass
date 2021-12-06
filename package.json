@@ -13,10 +13,12 @@
     "bootstrap-icons": "^1.7.2",
     "chart.js": "^3.6.1",
     "core-js": "^3.6.5",
-    "frappe-charts": "^1.6.2",
+    "dayjs": "^1.10.7",
+    "lodash": "^4.17.21",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
     "vue-router": "^3.2.0",
+    "vue-toastification": "^1.7.14",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

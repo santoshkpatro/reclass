@@ -3,9 +3,17 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import axios from 'axios';
+import Toast from "vue-toastification";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "vue-toastification/dist/index.css";
+
+const options = {
+
+}
+
+Vue.use(Toast, options)
 
 Vue.config.productionTip = false;
 

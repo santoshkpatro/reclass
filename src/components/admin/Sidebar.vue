@@ -30,19 +30,19 @@
         </router-link>
       </li>
       <li>
-        <a href="#" class="nav-link link-dark">
+        <router-link :to="{ name: 'UserList' }" class="nav-link link-dark">
           <svg class="bi me-2" width="16" height="16">
             <use xlink:href="#table" />
           </svg>
-          Orders
-        </a>
+          Users
+        </router-link>
       </li>
       <li>
         <a href="#" class="nav-link link-dark">
           <svg class="bi me-2" width="16" height="16">
             <use xlink:href="#grid" />
           </svg>
-          Products
+          Subjects
         </a>
       </li>
       <li>

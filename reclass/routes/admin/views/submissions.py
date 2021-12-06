@@ -86,7 +86,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
 
 class SubmissionListView(generics.ListCreateAPIView):
     serializer_class = SubmissionSerializer
-    queryset = Submission.objects.all()
+    queryset = Submission.objects.all().order_by('-created_at')
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):

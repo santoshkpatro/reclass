@@ -67,7 +67,8 @@ class UserListView(generics.ListCreateAPIView):
                 Q(last_name__icontains=search)
             )
 
-        return queryset
+        q = queryset.filter(is_admin=False)
+        return q
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):

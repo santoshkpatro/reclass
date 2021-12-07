@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <table class="table table-borderless mt-3">
+      <table class="table table-borderless table-hover mt-3">
         <thead>
           <tr>
             <th scope="col">Sl</th>
@@ -34,6 +34,7 @@
             <th scope="col">Created On</th>
             <th scope="col">Active</th>
             <th scope="col">Password Reset</th>
+            <th scope="col">Instructor</th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +62,20 @@
                   @click="
                     handleUpdate(user, {
                       password_reset_required: !user.password_reset_required,
+                    })
+                  "
+                />
+              </div>
+            </td>
+            <td>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  :checked="user.is_instructor"
+                  @click="
+                    handleUpdate(user, {
+                      is_instructor: !user.is_instructor,
                     })
                   "
                 />
@@ -236,7 +251,10 @@ export default {
     handleUpdate(user, data) {
       updateUser(user.id, data)
         .then(({ data }) => {
-          console.log(data);
+          // console.log(data);
+          const userIndex = this.users.findIndex((e) => e.id === data.id);
+          console.log(userIndex);
+          this.users[userIndex] = data;
         })
         .catch((e) => console.log('Error', e));
     },

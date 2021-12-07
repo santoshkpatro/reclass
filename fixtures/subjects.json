@@ -1,0 +1,93 @@
+[
+{
+    "model": "reclass.subject",
+    "pk": 1,
+    "fields": {
+        "title": "Object-Oriented Design",
+        "subject_code": "CS-01",
+        "description": "This course focuses on the concepts of object-oriented programming. Topics include data abstraction, classes, composition and inheritance, subtyping, dynamic binding, polymorphism and dynamic memory management. Other topics include type systems, two-dimensional arrays, records, references, searching and sorting algorithms, language translation. Software engineering: comprehensibility, correctness, efficiency, refactoring. ***Prerequisite: CS 110 with a minimum grade of 65% and one of MATH 110 (may be taken concurrently) or MATH 103 with a minimum grade of 80%.",
+        "thumbnail": "https://i.picsum.photos/id/729/200/200.jpg?hmac=hCw_uurY9O39ITS0MMk7fNNdWPaY20TzXz2NTAkEslU",
+        "is_active": true,
+        "created_at": "2021-12-07T08:13:37.110Z",
+        "updated_at": "2021-12-07T08:13:37.110Z"
+    }
+},
+{
+    "model": "reclass.subject",
+    "pk": 2,
+    "fields": {
+        "title": "Introduction to Digital Systems",
+        "subject_code": "CS-02",
+        "description": "Hardware paradigms, logic minimization, sequential and combinational circuits, register transfer notation. Numerical data representation, number bases, floating-point and two’s-complement representation, representation of non-numeric data, records and arrays. Von Neumann architecture, control units, instruction sets, assembly language programming, addressing modes, subroutines, basic building blocks, computer components.",
+        "thumbnail": "https://i.picsum.photos/id/194/200/200.jpg?hmac=f1VYjvgDG_6vPwJyTb-Xl1HpXKM23stmhFUnmPE_yL8",
+        "is_active": true,
+        "created_at": "2021-12-07T08:15:26.287Z",
+        "updated_at": "2021-12-07T08:15:26.287Z"
+    }
+},
+{
+    "model": "reclass.subject",
+    "pk": 3,
+    "fields": {
+        "title": "Data Structures and Abstractions",
+        "subject_code": "CS-03",
+        "description": "This course introduces data abstraction, data structures and their implementations, the basics of algorithmic analysis, and the fundamental computing algorithms. Topics include stacks, queues, heaps, recursion, Master Theorem, asymptotic notation, computational complexity, empirical performance measurement, recursion based sorting algorithms, hashing, and trees (including binary trees, B-trees, and AVL trees)",
+        "thumbnail": "https://i.picsum.photos/id/869/200/200.jpg?hmac=Eqnjw4kAS1sFTick74KSN6CBN01wmQg8OpxqbGtdyCU",
+        "is_active": true,
+        "created_at": "2021-12-07T08:16:16.354Z",
+        "updated_at": "2021-12-07T08:16:16.354Z"
+    }
+},
+{
+    "model": "reclass.subject",
+    "pk": 4,
+    "fields": {
+        "title": "Introduction to Operating Systems",
+        "subject_code": "CS-04",
+        "description": "Overview of operating systems: functionality, and design issues. Operating system principles: structures, abstractions, APIs, resource allocation, proximity, virtualization. Concurrency: process state, context switches, process communication, synchronization. Scheduling: preemption, schedulers, processes, and threads. Memory management. Security and protection. File systems. User interface. Distributed algorithms: consensus, termination, and fault tolerance",
+        "thumbnail": "https://i.picsum.photos/id/354/200/200.jpg?hmac=ykMwenrB5tcaT_UHlYwh2ZzAZ4Km48YOmwJTFCiodJ4",
+        "is_active": true,
+        "created_at": "2021-12-07T08:17:11.851Z",
+        "updated_at": "2021-12-07T08:17:11.851Z"
+    }
+},
+{
+    "model": "reclass.subject",
+    "pk": 5,
+    "fields": {
+        "title": "Computer Graphics",
+        "subject_code": "CS-05",
+        "description": "Advanced topics in computer graphics, including special modeling techniques for natural phenomenon, advanced illumination models and rendering algorithms",
+        "thumbnail": "https://i.picsum.photos/id/22/200/200.jpg?hmac=A_6iPTnt4dXFc2T3FQKaATIql7N3Hu_8qGQcdTeBweY",
+        "is_active": true,
+        "created_at": "2021-12-07T08:18:03.155Z",
+        "updated_at": "2021-12-07T08:18:03.155Z"
+    }
+},
+{
+    "model": "reclass.subject",
+    "pk": 6,
+    "fields": {
+        "title": "Inroduction to Compiler Design",
+        "subject_code": "CS-06",
+        "description": "High-level programming language specification. Lexical and syntactic structure, regular expression, finite automata, and lexical analyzer. Context-free grammars and parsing. LR parsers. Symbol tables. Storage allocation. Code optimization and generation.",
+        "thumbnail": "https://i.picsum.photos/id/14/200/200.jpg?hmac=bwQwH7-0RPCqUVkFzd3hFhc6yDfC6_e7vgaKXZ7vFOA",
+        "is_active": true,
+        "created_at": "2021-12-07T08:18:40.394Z",
+        "updated_at": "2021-12-07T08:18:40.394Z"
+    }
+},
+{
+    "model": "reclass.subject",
+    "pk": 7,
+    "fields": {
+        "title": "Open Source Software Development",
+        "subject_code": "CS-07",
+        "description": "This course will introduce students to software development in an open source environment, including methodology and philosophy. Students will gain hands-on experience with the tools used in open source development, leading to contributions to an active open source software development project. Students will also have the opportunity to enhance their general programming skills in a very practical way",
+        "thumbnail": "https://i.picsum.photos/id/958/200/200.jpg?hmac=WdLUMERHKTLw-sP-eIf1-JlwdIT2ZY12zf4JbnQR_s8",
+        "is_active": true,
+        "created_at": "2021-12-07T08:19:58.717Z",
+        "updated_at": "2021-12-07T08:19:58.717Z"
+    }
+}
+]

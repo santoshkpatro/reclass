@@ -1,153 +1,177 @@
 <template>
-  <div
-    class="d-flex flex-column flex-shrink-0 p-3 bg-light"
-    style="height: 100vh"
+  <nav
+    id="sidebarMenu"
+    class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
   >
-    <a
-      href="/"
-      class="
-        d-flex
-        align-items-center
-        mb-3 mb-md-0
-        me-md-auto
-        link-dark
-        text-decoration-none
-      "
-    >
-      <svg class="bi me-2" width="40" height="32">
-        <use xlink:href="#bootstrap" />
-      </svg>
-      <span class="fs-4">ReClass</span>
-    </a>
-    <hr />
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li>
-        <router-link :to="{ name: 'AdminOverview' }" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#speedometer2" />
-          </svg>
-          Overview
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'UserList' }" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#table" />
-          </svg>
-          Users
-        </router-link>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#grid" />
-          </svg>
-          Subjects
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          <svg class="bi me-2" width="16" height="16">
-            <use xlink:href="#people-circle" />
-          </svg>
-          Customers
-        </a>
-      </li>
-    </ul>
-    <hr />
-    <div class="dropdown">
-      <a
-        href="#"
+    <div class="position-sticky pt-3">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">
+            <span data-feather="home"></span>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file"></span>
+            Orders
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="shopping-cart"></span>
+            Products
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="users"></span>
+            Customers
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="bar-chart-2"></span>
+            Reports
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="layers"></span>
+            Integrations
+          </a>
+        </li>
+      </ul>
+
+      <h6
         class="
+          sidebar-heading
           d-flex
+          justify-content-between
           align-items-center
-          link-dark
-          text-decoration-none
-          dropdown-toggle
+          px-3
+          mt-4
+          mb-1
+          text-muted
         "
-        id="dropdownUser2"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
       >
-        <img
-          src="https://github.com/mdo.png"
-          alt=""
-          width="32"
-          height="32"
-          class="rounded-circle me-2"
-        />
-        <strong>mdo</strong>
-      </a>
-      <ul
-        class="dropdown-menu text-small shadow"
-        aria-labelledby="dropdownUser2"
-      >
-        <li><a class="dropdown-item" href="#">New project...</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
+        <span>Saved reports</span>
+        <a class="link-secondary" href="#" aria-label="Add a new report">
+          <span data-feather="plus-circle"></span>
+        </a>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text"></span>
+            Current month
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text"></span>
+            Last quarter
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text"></span>
+            Social engagement
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text"></span>
+            Year-end sale
+          </a>
+        </li>
       </ul>
     </div>
-  </div>
+  </nav>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style scoped>
-.dropdown-toggle {
-  outline: 0;
+<style>
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  /* rtl:raw:
+  right: 0;
+  */
+  bottom: 0;
+  /* rtl:remove */
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
-.nav-flush .nav-link {
+@media (max-width: 767.98px) {
+  .sidebar {
+    top: 5rem;
+  }
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #727272;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar .navbar-toggler {
+  top: 0.25rem;
+  right: 1rem;
+}
+
+.navbar .form-control {
+  padding: 0.75rem 1rem;
+  border-width: 0;
   border-radius: 0;
-}
-
-.btn-toggle {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.65);
-  background-color: transparent;
-  border: 0;
-}
-.btn-toggle:hover,
-.btn-toggle:focus {
-  color: rgba(0, 0, 0, 0.85);
-  background-color: #d2f4ea;
-}
-
-.btn-toggle::before {
-  width: 1.25em;
-  line-height: 0;
-  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-  transition: transform 0.35s ease;
-  transform-origin: 0.5em 50%;
-}
-
-.btn-toggle[aria-expanded='true'] {
-  color: rgba(0, 0, 0, 0.85);
-}
-.btn-toggle[aria-expanded='true']::before {
-  transform: rotate(90deg);
-}
-
-.btn-toggle-nav a {
-  display: inline-flex;
-  padding: 0.1875rem 0.5rem;
-  margin-top: 0.125rem;
-  margin-left: 1.25rem;
-  text-decoration: none;
-}
-.btn-toggle-nav a:hover,
-.btn-toggle-nav a:focus {
-  background-color: #d2f4ea;
-}
-
-.scrollarea {
-  overflow-y: auto;
 }
 </style>

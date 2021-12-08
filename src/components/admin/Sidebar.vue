@@ -5,22 +5,36 @@
   >
     <div class="position-sticky pt-3">
       <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">
+        <li
+          class="nav-item"
+          :class="{
+            'border-end border-5 border-dark': $route.name === 'AdminOverview',
+          }"
+        >
+          <router-link
+            class="nav-link"
+            aria-current="page"
+            :to="{ name: 'AdminOverview' }"
+          >
             <span data-feather="home"></span>
-            Dashboard
-          </a>
+            Overview
+          </router-link>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
+        <li
+          class="nav-item"
+          :class="{
+            'border-end border-5 border-dark': $route.name === 'UserList',
+          }"
+        >
+          <router-link class="nav-link" :to="{ name: 'UserList' }">
             <span data-feather="file"></span>
-            Orders
-          </a>
+            Users
+          </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="shopping-cart"></span>
-            Products
+            Notifications
           </a>
         </li>
         <li class="nav-item">

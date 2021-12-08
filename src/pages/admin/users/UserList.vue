@@ -28,7 +28,7 @@
       <table class="table table-borderless table-hover mt-3">
         <thead>
           <tr>
-            <th scope="col">Sl</th>
+            <th scope="col"></th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Created On</th>
@@ -38,9 +38,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(user, index) in users" :key="user.id">
-            <th scope="row">{{ ++index }}</th>
-            <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <tr v-for="user in users" :key="user.id">
+            <th scope="row">
+              <img
+                :src="user.avatar"
+                class="rounded-circle avatar"
+                height="45"
+                width="45"
+                :alt="user.first_name"
+                v-if="user.avatar"
+              />
+              <i class="bi bi-person-circle" v-else></i>
+            </th>
+            <td>
+              <router-link
+                :to="{ name: 'UserDetail', params: { id: user.id } }"
+              >
+                <span>{{ user.first_name }} {{ user.last_name }}</span>
+              </router-link>
+            </td>
             <td>{{ user.email }}</td>
             <td>{{ user.created_at | format }}</td>
             <td>
@@ -292,4 +308,24 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.avatar {
+  border: 1.5px solid;
+}
+
+td {
+  vertical-align: middle;
+}
+
+.bi {
+  font-size: 45px;
+}
 </style>

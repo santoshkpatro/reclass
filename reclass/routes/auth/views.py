@@ -76,6 +76,10 @@ def login_view(request):
         if not user:
             return Response(data={'detail': 'Either email or password is invalid'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Saving user details
+        user.last_login = timezone.now()
+        user.save()
+
         # Return user profile along with access token
         serializer = ProfileSerializer(instance=user)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

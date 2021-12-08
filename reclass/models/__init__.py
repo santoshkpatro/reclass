@@ -5,9 +5,9 @@ from .notification import Notification
 from .assignment import Assignment
 from .submission import Submission
 from .message import Message
-from .invites import SubjectInvite
+from .invite import SubjectInvite
 from .schedule import Schedule
-from .projects import Project
+from .project import Project
 
 __all__ = [
     'User',

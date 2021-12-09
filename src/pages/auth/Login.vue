@@ -1,34 +1,9 @@
 <template>
   <div class="login">
     <Navbar />
-    <div
-      class="d-flex justify-content-center align-items-center"
-      style="height: 80vh"
-    >
-      <div class="card shadow-lg col-4">
-        <div class="card-body p-4">
-          <form @submit.prevent="handleSubmit">
-            <h3 class="text-center">Login</h3>
-            <BaseInput
-              name="email"
-              v-model="email"
-              label="Email"
-              :message="emailMessage"
-              class="my-2"
-            />
-            <BaseInput
-              name="password"
-              v-model="password"
-              label="Password"
-              :message="passwordMessage"
-              class="my-2"
-            />
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-dark mt-3">Login</button>
-            </div>
-          </form>
-        </div>
-      </div>
+    <div class="w-1/2 mx-auto">
+      <label for="" class="text-lg">Email</label>
+      <input type="email" id="email" name="email" class="input-field" />
     </div>
   </div>
 </template>

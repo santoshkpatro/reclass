@@ -1,44 +1,41 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import axios from 'axios';
+import { createStore } from 'vuex'
+import axios from 'axios'
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     profile: null,
   },
   mutations: {
     setProfile(state, profileData) {
-      state.profile = profileData;
+      state.profile = profileData
       axios.defaults.headers.common[
         'Authorization'
-      ] = `Bearer ${profileData.access_token}`;
-      localStorage.setItem('profile', JSON.stringify(profileData));
+      ] = `Bearer ${profileData.access_token}`
+      localStorage.setItem('profile', JSON.stringify(profileData))
     },
     removeProfile(state) {
-      state.profile = null;
-      localStorage.removeItem('profile');
-      location.reload();
+      state.profile = null
+      localStorage.removeItem('profile')
+      location.reload()
     },
   },
   actions: {},
   modules: {},
   getters: {
     loggedIn(state) {
-      return !!state.profile;
+      return !!state.profile
     },
 
     role(state) {
       if (state.profile.is_admin) {
-        return 'admin';
+        return 'admin'
       } else {
         if (state.profile.is_instructor) {
-          return 'instructor';
+          return 'instructor'
         } else {
-          return 'student';
+          return 'student'
         }
       }
     },
   },
-});
+})

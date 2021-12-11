@@ -1,23 +1,22 @@
 <template>
   <div class="base-input">
-    <label for="" class="text-lg">{{ label }}</label>
+    <label for class="text-lg">{{ label }}</label>
     <input
       :type="type"
       :name="name"
-      :value="value"
+      :value="modelValue"
       :placeholder="placeholder"
       @input="updateValue"
       class="input-field"
     />
-    <div class="form-text">
-      {{ message }}
-    </div>
+    <div class="form-text">{{ message }}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'BaseInput',
+  emits: ['input'],
   props: {
     label: {
       type: String,
@@ -35,9 +34,9 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
-      required: true,
+      default: ''
     },
     placeholder: {
       type: String,

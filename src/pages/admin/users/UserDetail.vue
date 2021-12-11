@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getUserDetail } from '@/api/admin.js';
+import { getUserDetail } from '../../../api/admin.js';
 
 export default {
   props: ['id'],

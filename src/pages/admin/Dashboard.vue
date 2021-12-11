@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Sidebar from '@/components/admin/Sidebar.vue';
-import Topbar from '@/components/admin/Topbar.vue';
+import Sidebar from '../../components/admin/Sidebar.vue';
+import Topbar from '../../components/admin/Topbar.vue';
 
 export default {
   name: 'AdminDashboard',

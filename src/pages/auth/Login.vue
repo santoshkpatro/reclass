@@ -1,9 +1,17 @@
 <template>
   <div class="login">
     <Navbar />
-    <div class="w-1/2 mx-auto">
-      <label for="" class="text-lg">Email</label>
-      <input type="email" id="email" name="email" class="input-field" />
+    <div class="w-1/3 mx-auto">
+      <form @submit.prevent="handleSubmit">
+        <BaseInput v-model="email" name="email" label="Email" />
+        <BaseInput
+          v-model="password"
+          name="password"
+          label="Password"
+          type="password"
+        />
+        <button class="btn-primary">Login</button>
+      </form>
     </div>
   </div>
 </template>

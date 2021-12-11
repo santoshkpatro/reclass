@@ -1,13 +1,13 @@
 <template>
   <div class="base-input">
-    <label for="" class="">{{ label }}</label>
+    <label for="" class="text-lg">{{ label }}</label>
     <input
       :type="type"
       :name="name"
       :value="value"
       :placeholder="placeholder"
       @input="updateValue"
-      class="border border-transparent"
+      class="input-field"
     />
     <div class="form-text">
       {{ message }}

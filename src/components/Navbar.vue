@@ -15,7 +15,15 @@
         <li><a href="">Home</a></li>
         <li><a href="">Dashboard</a></li>
         <li>
-          <router-link to="/auth/login" class="btn-primary">Login</router-link>
+          <router-link to="/auth/login" class="btn-primary" v-if="!loggedIn"
+            >Login</router-link
+          >
+          <span
+            class="btn-primary"
+            v-if="loggedIn"
+            @click="$store.commit('removeProfile')"
+            >Logout</span
+          >
         </li>
       </ul>
     </div>

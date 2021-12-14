@@ -35,6 +35,10 @@
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >Last Login</th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Subjects</th>
                   <th scope="col" class="relative px-6 py-3">
                     <span class="sr-only">Edit</span>
                   </th>
@@ -85,6 +89,9 @@
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <span v-if="user.last_login">{{ dateFormat(user.last_login) }}</span>
                     <span v-else>Not logged in yet</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 text-xs leading-5 font-semibold rounded-full" :class="{ 'bg-green-100 text-green-800': e.is_active === true, 'bg-red-100 text -red-800': e.is_active === false }" v-for="e in user.enrolled" :key="e.id">{{ e.subject.title }}</span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <router-link

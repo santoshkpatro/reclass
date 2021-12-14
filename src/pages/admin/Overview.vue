@@ -1,137 +1,156 @@
 <template>
-  <div>
-    <h2>Overview</h2>
-    <div v-if="isLoading">
-      <Placeholder />
+  <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    Overview
+  </h2>
+  <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+    <!-- Card -->
+    <div
+      class="
+        flex
+        items-center
+        p-4
+        bg-white
+        rounded-lg
+        shadow-xs
+        dark:bg-gray-800
+      "
+    >
+      <div
+        class="
+          p-3
+          mr-4
+          text-orange-500
+          bg-orange-100
+          rounded-full
+          dark:text-orange-100 dark:bg-orange-500
+        "
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+          Total users
+        </p>
+        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          {{ users.count }}
+        </p>
+      </div>
     </div>
-    <div v-else>
-      <!-- Count Section -->
-      <!-- <div class="row my-3">
-        <div class="col-2">
-          <CountCard name="Users" :count="users.count" />
-        </div>
-        <div class="col-2">
-          <CountCard name="Notifications" :count="notifications.count" />
-        </div>
-        <div class="col-2">
-          <CountCard name="Schedules" :count="schedules.count" />
-        </div>
-        <div class="col-2">
-          <CountCard name="Subjects" :count="subjects.count" />
-        </div>
-        <div class="col-2">
-          <CountCard name="Assignments" :count="assignments.count" />
-        </div>
-        <div class="col-2">
-          <CountCard name="Submissions" :count="submissions.count" />
-        </div>
-      </div>-->
-
-      <div class="flex flex-wrap -m-4 text-center">
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              class="text-indigo-500 w-12 h-12 mb-3 inline-block"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8 17l4 4 4-4m-4-5v9" />
-              <path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29" />
-            </svg>
-            <h2 class="title-font font-medium text-3xl text-gray-900">2.7K</h2>
-            <p class="leading-relaxed">Downloads</p>
-          </div>
-        </div>
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              class="text-indigo-500 w-12 h-12 mb-3 inline-block"
-              viewBox="0 0 24 24"
-            >
-              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75" />
-            </svg>
-            <h2 class="title-font font-medium text-3xl text-gray-900">1.3K</h2>
-            <p class="leading-relaxed">Users</p>
-          </div>
-        </div>
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              class="text-indigo-500 w-12 h-12 mb-3 inline-block"
-              viewBox="0 0 24 24"
-            >
-              <path d="M3 18v-6a9 9 0 0118 0v6" />
-              <path
-                d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
-              />
-            </svg>
-            <h2 class="title-font font-medium text-3xl text-gray-900">74</h2>
-            <p class="leading-relaxed">Files</p>
-          </div>
-        </div>
-        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
-          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              class="text-indigo-500 w-12 h-12 mb-3 inline-block"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-            <h2 class="title-font font-medium text-3xl text-gray-900">46</h2>
-            <p class="leading-relaxed">Places</p>
-          </div>
-        </div>
+    <!-- Card -->
+    <div
+      class="
+        flex
+        items-center
+        p-4
+        bg-white
+        rounded-lg
+        shadow-xs
+        dark:bg-gray-800
+      "
+    >
+      <div
+        class="
+          p-3
+          mr-4
+          text-green-500
+          bg-green-100
+          rounded-full
+          dark:text-green-100 dark:bg-green-500
+        "
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
       </div>
-
-      <!-- Activity Section  -->
-      <div class="activity my-3">
-        <div class="row">
-          <div class="col-9">
-            <ActivityChart />
-          </div>
-          <div class="col-3">
-            <div class="d-grid gap-2">
-              <button class="btn btn-outline-dark">Add User</button>
-              <button class="btn btn-outline-dark">Add Notification</button>
-              <button class="btn btn-outline-dark">Add Schedule</button>
-              <button class="btn btn-outline-dark">Add Subject</button>
-            </div>
-          </div>
-        </div>
+      <div>
+        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+          Account balance
+        </p>
+        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          $ 46,760.89
+        </p>
       </div>
-
-      <!-- Recent Items Section -->
-      <div class="row my-3">
-        <div class="col-4">
-          <RecentUsers :users="users.recent" />
-        </div>
-        <div class="col-4">
-          <RecentSubjects :subjects="subjects.recent" />
-        </div>
-        <div class="col-4">
-          <RecentAssignments :assignments="assignments.recent" />
-        </div>
+    </div>
+    <!-- Card -->
+    <div
+      class="
+        flex
+        items-center
+        p-4
+        bg-white
+        rounded-lg
+        shadow-xs
+        dark:bg-gray-800
+      "
+    >
+      <div
+        class="
+          p-3
+          mr-4
+          text-blue-500
+          bg-blue-100
+          rounded-full
+          dark:text-blue-100 dark:bg-blue-500
+        "
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+          New sales
+        </p>
+        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+          376
+        </p>
+      </div>
+    </div>
+    <!-- Card -->
+    <div
+      class="
+        flex
+        items-center
+        p-4
+        bg-white
+        rounded-lg
+        shadow-xs
+        dark:bg-gray-800
+      "
+    >
+      <div
+        class="
+          p-3
+          mr-4
+          text-teal-500
+          bg-teal-100
+          rounded-full
+          dark:text-teal-100 dark:bg-teal-500
+        "
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </div>
+      <div>
+        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+          Pending contacts
+        </p>
+        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">35</p>
       </div>
     </div>
   </div>
@@ -145,13 +164,13 @@ import {
   getSubmissions,
   getSchedules,
   getNotifications,
-} from '../../api/admin.js';
-import Placeholder from '../../components/admin/overview/Placeholder.vue';
-import RecentUsers from '../../components/admin/overview/RecentUsers.vue';
-import RecentSubjects from '../../components/admin/overview/RecentSubjects.vue';
-import RecentAssignments from '../../components/admin/overview/RecentAssignments.vue';
-import CountCard from '../../components/admin/overview/CountCard.vue';
-import ActivityChart from '../../components/admin/overview/ActivityChart.vue';
+} from '../../api/admin.js'
+import Placeholder from '../../components/admin/overview/Placeholder.vue'
+import RecentUsers from '../../components/admin/overview/RecentUsers.vue'
+import RecentSubjects from '../../components/admin/overview/RecentSubjects.vue'
+import RecentAssignments from '../../components/admin/overview/RecentAssignments.vue'
+import CountCard from '../../components/admin/overview/CountCard.vue'
+import ActivityChart from '../../components/admin/overview/ActivityChart.vue'
 
 export default {
   name: 'AdminOverview',
@@ -190,38 +209,37 @@ export default {
         count: 0,
         recent: [],
       },
-    };
+    }
   },
   async mounted() {
-    const userData = await getUsers({ limit: 10 });
-    const subjectData = await getSubjects();
-    const assignmentData = await getAssignments();
-    const submissionData = await getSubmissions();
-    const scheduleData = await getSchedules();
-    const notificationsData = await getNotifications();
+    const userData = await getUsers({ limit: 10 })
+    const subjectData = await getSubjects()
+    const assignmentData = await getAssignments()
+    const submissionData = await getSubmissions()
+    const scheduleData = await getSchedules()
+    const notificationsData = await getNotifications()
 
-    this.users.count = userData.data.count;
-    this.users.recent = userData.data.results;
+    this.users.count = userData.data.count
+    this.users.recent = userData.data.results
 
-    this.subjects.count = subjectData.data.count;
-    this.subjects.recent = subjectData.data.results;
+    this.subjects.count = subjectData.data.count
+    this.subjects.recent = subjectData.data.results
 
-    this.assignments.count = assignmentData.data.count;
-    this.assignments.recent = assignmentData.data.results;
+    this.assignments.count = assignmentData.data.count
+    this.assignments.recent = assignmentData.data.results
 
-    this.submissions.count = submissionData.data.count;
-    this.submissions.recent = submissionData.data.count;
+    this.submissions.count = submissionData.data.count
+    this.submissions.recent = submissionData.data.count
 
-    this.schedules.count = scheduleData.data.count;
-    this.schedules.recent = scheduleData.data.results;
+    this.schedules.count = scheduleData.data.count
+    this.schedules.recent = scheduleData.data.results
 
-    this.notifications.count = notificationsData.data.count;
-    this.notifications.recent = notificationsData.data.results;
+    this.notifications.count = notificationsData.data.count
+    this.notifications.recent = notificationsData.data.results
 
-    this.isLoading = false;
+    this.isLoading = false
   },
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>

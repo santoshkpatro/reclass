@@ -1,11 +1,26 @@
 from django.db.models import Q
-from rest_framework import generics, status, permissions, serializers
-from reclass.models import User
+from rest_framework import generics, permissions, serializers
+from reclass.models import User, Enrollment, Subject
 from ..permissions import IsAdminUser
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ['id', 'title', 'subject_code']
+
+
+class EnrollmentSerializer(serializers.ModelSerializer):
+    subject = SubjectSerializer(read_only=True)
+
+    class Meta:
+        model = Enrollment
+        fields = ['id', 'subject', 'enrolled_on', 'is_active']
+
 
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    enrolled = EnrollmentSerializer(read_only=True, many=True)
 
     class Meta:
         model = User
@@ -24,7 +39,8 @@ class UserSerializer(serializers.ModelSerializer):
             'updated_at',
             'created_at',
             'last_login',
-            'password'
+            'password',
+            'enrolled',
         ]
 
     # While saving new user

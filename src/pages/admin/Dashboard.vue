@@ -1,12 +1,17 @@
 <template>
-  <div class="flex flex-wrap">
-    <div class="w-1/5">
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
+      <!-- Desktop sidebar -->
       <Sidebar />
+
+      <!-- main -->
+      <div class="flex flex-col flex-1 w-full">
+        <main class="h-full overflow-y-auto">
+          <div class="container px-6 mx-auto grid">
+            <router-view></router-view>
+          </div>
+        </main>
+      </div>
     </div>
-    <div class="px-2">
-      <router-view></router-view>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -21,6 +26,7 @@ export default {
   },
   data() {
     return {
+      isSideMenuOpen: false,
       recentUsers: [],
       totalUsersCount: 0,
     };

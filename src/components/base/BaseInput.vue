@@ -6,7 +6,7 @@
       :name="name"
       :value="modelValue"
       :placeholder="placeholder"
-      @input="updateValue"
+      @input="$emit('update:modelValue', $event.target.value)"
       class="input-field"
     />
     <div class="form-text">{{ message }}</div>
@@ -41,11 +41,6 @@ export default {
     placeholder: {
       type: String,
       default: '',
-    },
-  },
-  methods: {
-    updateValue(e) {
-      this.$emit('input', e.target.value);
     },
   },
 };

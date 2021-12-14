@@ -5,11 +5,14 @@
       <form @submit.prevent="handleSubmit">
         <!-- <BaseInput v-model="email" name="email" label="Email" /> -->
         <!-- <BaseInput v-model="password" name="password" label="Password" type="password" /> -->
-        <label for="email" class="text-lg">Email</label>
-        <input type="text" v-model="email" class="input-field" id="email" />
+        <!-- <label for="email" class="text-lg">Email</label> -->
+        <!-- <input type="text" v-model="email" class="input-field" id="email" /> -->
 
-        <label for="password" class="text-lg">Password</label>
-        <input type="password" v-model="password" class="input-field" id="password" />
+        <!-- <label for="password" class="text-lg">Password</label> -->
+        <!-- <input type="password" v-model="password" class="input-field" id="password" /> -->
+
+        <BaseInput name="email" label="Email" v-model="email" />
+        <BaseInput name="password" label="Password" type="password" v-model="password" />
 
         <button class="btn-primary" type="submit">Login</button>
       </form>

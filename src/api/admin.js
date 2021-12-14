@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const http = axios.create({
-  baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000/api/admin',
-});
+  baseURL: 'http://127.0.0.1:8000/api/admin',
+})
 
 // Users
 export const getUsers = (query = {}, conf = {}) =>
@@ -12,17 +12,17 @@ export const getUsers = (query = {}, conf = {}) =>
       params: query,
     },
     conf
-  );
-export const getUserDetail = (id) => http.get(`/users/${id}/`);
-export const updateUser = (id, data) => http.patch(`/users/${id}/`, data);
-export const addUser = (data) => http.post('/users/', data);
+  )
+export const getUserDetail = (id) => http.get(`/users/${id}/`)
+export const updateUser = (id, data) => http.patch(`/users/${id}/`, data)
+export const addUser = (data) => http.post('/users/', data)
 
-export const getSchedules = () => http.get('/schedules');
+export const getSchedules = () => http.get('/schedules')
 
-export const getSubjects = () => http.get('/subjects');
+export const getSubjects = () => http.get('/subjects')
 
-export const getAssignments = () => http.get('/assignments');
+export const getAssignments = () => http.get('/assignments')
 
-export const getSubmissions = () => http.get('/submissions');
+export const getSubmissions = () => http.get('/submissions')
 
-export const getNotifications = () => http.get('/notifications');
+export const getNotifications = () => http.get('/notifications')

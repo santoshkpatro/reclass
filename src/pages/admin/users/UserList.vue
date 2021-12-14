@@ -3,177 +3,99 @@
     <div v-if="isLoading">
       <Placeholder />
     </div>
-    <div class="mt-3" v-else>
-      <div class="d-flex justify-content-between">
-        <button
-          class="btn btn-dark"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-        >
-          Add User
-        </button>
-        <div>
-          <div>
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              @keyup="handleSearch"
-            />
+
+    <div class="flex flex-col">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Name</th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Phone</th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Status</th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Instructor</th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Created On</th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >Last Login</th>
+                  <th scope="col" class="relative px-6 py-3">
+                    <span class="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr v-for="user in users" :key="user.id">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" :src="user.avatar" alt />
+                      </div>
+                      <div class="ml-4">
+                        <div
+                          class="text-sm font-medium text-gray-900"
+                        >{{ user.first_name }} {{ user.last_name }}</div>
+                        <div class="text-sm text-gray-500">{{ user.email }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-sm" v-if="user.phone">+91-{{ user.phone }}</span>
+                    <span v-else class="text-sm text-gray-500">No phone</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      v-if="user.is_active === true"
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                    >Active</span>
+                    <span
+                      v-else
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
+                    >Not Active</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      v-if="user.is_instructor === true"
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800"
+                    >Yes</span>
+                    <span
+                      v-else
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800"
+                    >No</span>
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                  >{{ dateFormat(user.created_at) }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <span v-if="user.last_login">{{ dateFormat(user.last_login) }}</span>
+                    <span v-else>Not logged in yet</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <router-link
+                      :to="{ name: 'UserDetail', params: { id: user.id } }"
+                      class="text-indigo-600 hover:text-indigo-900"
+                    >Edit</router-link>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
-      <table class="table table-borderless table-hover mt-3">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Created On</th>
-            <th scope="col">Active</th>
-            <th scope="col">Password Reset</th>
-            <th scope="col">Instructor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <th scope="row">
-              <img
-                :src="user.avatar"
-                class="rounded-circle avatar"
-                height="45"
-                width="45"
-                :alt="user.first_name"
-                v-if="user.avatar"
-              />
-              <i class="bi bi-person-circle" v-else></i>
-            </th>
-            <td>
-              <router-link
-                :to="{ name: 'UserDetail', params: { id: user.id } }"
-              >
-                <span>{{ user.first_name }} {{ user.last_name }}</span>
-              </router-link>
-            </td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.created_at | format }}</td>
-            <td>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  :checked="user.is_active"
-                  @click="handleUpdate(user, { is_active: !user.is_active })"
-                />
-              </div>
-            </td>
-            <td>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  :checked="user.password_reset_required"
-                  @click="
-                    handleUpdate(user, {
-                      password_reset_required: !user.password_reset_required,
-                    })
-                  "
-                />
-              </div>
-            </td>
-            <td>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  :checked="user.is_instructor"
-                  @click="
-                    handleUpdate(user, {
-                      is_instructor: !user.is_instructor,
-                    })
-                  "
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Pagination -->
-      <div class="d-flex justify-content-between">
-        <button
-          class="btn btn-sm btn-outline-dark"
-          :disabled="!previous"
-          @click="handlePrevious"
-        >
-          Previous
-        </button>
-        <button
-          class="btn btn-sm btn-outline-dark"
-          :disabled="!next"
-          @click="handleNext"
-        >
-          Next
-        </button>
-      </div>
-
-      <!-- New User  -->
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 id="offcanvasRightLabel">Add User</h5>
-          <button
-            type="button"
-            class="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body">
-          <form @submit.prevent="addUser">
-            <BaseInput
-              name="email"
-              placeholder="sample@ex.com"
-              label="Email address"
-              v-model="newUser.email"
-            />
-            <BaseInput
-              name="first_name"
-              label="First Name"
-              v-model="newUser.first_name"
-            />
-            <BaseInput
-              name="last_name"
-              label="Last Name"
-              v-model="newUser.last_name"
-            />
-            <BaseInput
-              name="password"
-              placeholder="******"
-              label="Password"
-              type="password"
-              v-model="newUser.password"
-            />
-
-            <div class="d-grid gap-2 mt-3">
-              <button class="btn btn-dark" :disabled="addButtonLoading">
-                <span
-                  v-if="addButtonLoading"
-                  class="spinner-grow spinner-grow-sm"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                <span v-if="addButtonLoading">Adding</span>
-                <span v-if="!addButtonLoading">Add</span>
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -184,14 +106,13 @@
 import _ from 'lodash';
 import dayjs from 'dayjs';
 import axios from 'axios';
-import { getUsers, updateUser, addUser } from '@/api/admin';
-import BaseInput from '@/components/base/BaseInput';
-import Placeholder from '@/components/admin/users/Placeholder.vue';
+import { getUsers, updateUser, addUser } from '../../../api/admin';
+// import BaseInput from '../../../components/base/BaseInput';
+import Placeholder from '../../../components/admin/users/Placeholder.vue';
 
 export default {
   name: 'UserList',
   components: {
-    BaseInput,
     Placeholder,
   },
   data() {
@@ -216,11 +137,6 @@ export default {
       },
     };
   },
-  filters: {
-    format: function (value) {
-      return new dayjs(value).format('DD-MM-YYYY');
-    },
-  },
   mounted() {
     getUsers()
       .then(({ data }) => {
@@ -232,6 +148,9 @@ export default {
       .catch((e) => console.log(e));
   },
   methods: {
+    dateFormat(value) {
+      return new dayjs(value).format('DD-MM-YYYY');
+    },
     handleNext() {
       this.isLoading = true;
 
@@ -306,8 +225,7 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+<style>
 a {
   text-decoration: none;
   color: black;
@@ -325,6 +243,9 @@ td {
   vertical-align: middle;
 }
 
+.bi {
+  font-size: 45px;
+}
 .bi {
   font-size: 45px;
 }

@@ -1,42 +1,29 @@
 <template>
   <div class="login">
     <Navbar />
-    <div
-      class="d-flex justify-content-center align-items-center"
-      style="height: 80vh"
-    >
-      <div class="card shadow-lg col-4">
-        <div class="card-body p-4">
-          <form @submit.prevent="handleSubmit">
-            <h3 class="text-center">Login</h3>
-            <BaseInput
-              name="email"
-              v-model="email"
-              label="Email"
-              :message="emailMessage"
-              class="my-2"
-            />
-            <BaseInput
-              name="password"
-              v-model="password"
-              label="Password"
-              :message="passwordMessage"
-              class="my-2"
-            />
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-dark mt-3">Login</button>
-            </div>
-          </form>
-        </div>
-      </div>
+    <div class="w-1/3 mx-auto">
+      <form @submit.prevent="handleSubmit">
+        <!-- <BaseInput v-model="email" name="email" label="Email" /> -->
+        <!-- <BaseInput v-model="password" name="password" label="Password" type="password" /> -->
+        <!-- <label for="email" class="text-lg">Email</label> -->
+        <!-- <input type="text" v-model="email" class="input-field" id="email" /> -->
+
+        <!-- <label for="password" class="text-lg">Password</label> -->
+        <!-- <input type="password" v-model="password" class="input-field" id="password" /> -->
+
+        <BaseInput name="email" label="Email" v-model="email" />
+        <BaseInput name="password" label="Password" type="password" v-model="password" />
+
+        <button class="btn-primary" type="submit">Login</button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
-import BaseInput from '@/components/base/BaseInput.vue';
-import { login } from '@/api/index.js';
+import Navbar from '../../components/Navbar.vue';
+import BaseInput from '../../components/base/BaseInput.vue';
+import { login } from '../../api/index.js';
 
 export default {
   name: 'Login',
@@ -84,21 +71,22 @@ export default {
       }
     },
     handleSubmit() {
-      if (this.checkForm()) {
-        login({
-          email: this.email,
-          password: this.password,
-        })
-          .then(({ data }) => {
-            this.$store.commit('setProfile', data);
-            if (!this.$route.query === {}) {
-              this.$router.push(this.$route.query.redirect);
-            }
+      console.log(this.email)
+      console.log(this.password)
 
-            this.$router.push({ name: 'Home' });
-          })
-          .catch((e) => console.log(e));
-      }
+      login({
+        email: this.email,
+        password: this.password,
+      })
+        .then(({ data }) => {
+          this.$store.commit('setProfile', data);
+          if (!this.$route.query === {}) {
+            this.$router.push(this.$route.query.redirect);
+          }
+
+          this.$router.push({ name: 'Home' });
+        })
+        .catch((e) => console.log(e));
     },
   },
 };

@@ -1,7 +1,16 @@
+import os
+import uuid
+import mimetypes
 from django.db.models import Q
-from rest_framework import generics, permissions, serializers
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from rest_framework import generics, permissions, serializers, views, status
+from rest_framework.response import Response
+from rest_framework.parsers import FileUploadParser
 from reclass.models import User, Enrollment, Subject
 from ..permissions import IsAdminUser
+from ..helpers import file_extension, handle_file_upload
+
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +24,6 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = ['id', 'subject', 'enrolled_on', 'is_active']
-
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -58,6 +66,37 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
             instance.save()
         return super().update(instance, validated_data)
+
+
+class UserAvatarUpload(views.APIView):
+    parser_classes = [FileUploadParser]
+    permission_classes = [permissions.IsAuthenticated, IsAdminUser]
+
+    def put(self, request, pk, filename, format=None):
+        try:
+            user = User.objects.get(id=pk)
+
+            file_obj = request.data['file']
+            fs = FileSystemStorage()
+            file_type = request.META['CONTENT_TYPE']
+            ext = mimetypes.guess_extension(file_type)
+            file_name = 'avatars/' + uuid.uuid4().hex + ext
+            file = fs.save(file_name, file_obj)
+
+            # ext = file_extension(file_obj)
+            # print(ext)
+            # file_name = f'avatars/{uuid.uuid4().hex}.png'
+            # url = handle_file_upload(file_obj, file_name)
+
+            user.avatar = 'http://127.0.0.1:8000' + fs.url(file)
+            user.save()
+
+            serializer = UserSerializer(instance=user)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=204)
 
 
 class UserListView(generics.ListCreateAPIView):

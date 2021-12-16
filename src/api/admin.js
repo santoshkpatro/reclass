@@ -16,6 +16,12 @@ export const getUsers = (query = {}, conf = {}) =>
 export const getUserDetail = (id) => http.get(`/users/${id}/`)
 export const updateUser = (id, data) => http.patch(`/users/${id}/`, data)
 export const addUser = (data) => http.post('/users/', data)
+export const updateAvatar = (id, data) =>
+  http.put(`/users/${id}/avatar/default`, data, {
+    headers: {
+      'Content-Type': 'image/png',
+    },
+  })
 
 export const getSchedules = () => http.get('/schedules')
 

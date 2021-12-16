@@ -1,5 +1,5 @@
 from django.urls import path
-from .views.users import UserListView, UserDetailView
+from .views.users import UserListView, UserDetailView, UserAvatarUpload
 from .views.subjects import SubjectListView, SubjectDetailView, subject_invite
 from .views.invites import SubjectInviteListView, SubjectInviteDetailView
 from .views.notifications import NotificationListView, NotificationDetailView
@@ -12,6 +12,7 @@ urlpatterns = [
     # Users routes
     path('users/', UserListView.as_view()),
     path('users/<int:pk>/', UserDetailView.as_view()),
+    path('users/<int:pk>/avatar/<str:filename>/', UserAvatarUpload.as_view()),
 
     # Subjects routes
     path('subjects/', SubjectListView.as_view()),

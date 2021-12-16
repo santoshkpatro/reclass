@@ -16,7 +16,6 @@
 <script>
 export default {
   name: 'BaseInput',
-  emits: ['input'],
   props: {
     label: {
       type: String,
@@ -36,24 +35,14 @@ export default {
     },
     modelValue: {
       type: [String, Number],
-      default: ''
+      default: '',
     },
     placeholder: {
       type: String,
       default: '',
     },
   },
-};
+}
 </script>
 
-<style scoped>
-input {
-  border: 1px solid;
-  box-shadow: none;
-}
-
-input:focus {
-  border: 1px solid;
-  box-shadow: none;
-}
-</style>
+<style scoped></style>

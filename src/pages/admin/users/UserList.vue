@@ -3,7 +3,27 @@
     <div v-if="isLoading">
       <Placeholder />
     </div>
-
+    <div class="flex flex-row justify-between">
+      <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        User List
+      </h2>
+      <div class="my-6">
+        <input
+          type="text"
+          name="name"
+          @input="handleSearch"
+          placeholder="Search..."
+          class="
+            py-2
+            rounded
+            px-3
+            border-b-2 border-gray-600
+            outline-none
+            focus:border-purple-400
+          "
+        />
+      </div>
+    </div>
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -225,7 +245,8 @@
                     }}</span>
                     <span v-else>Not logged in yet</span>
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td></td>
+                  <!-- <td class="px-6 py-4 whitespace-nowrap">
                     <span
                       class="px-2 text-xs leading-5 font-semibold rounded-full"
                       :class="{
@@ -236,7 +257,7 @@
                       :key="e.id"
                       >{{ e.subject.title }}</span
                     >
-                  </td>
+                  </td> -->
                   <td
                     class="
                       px-6

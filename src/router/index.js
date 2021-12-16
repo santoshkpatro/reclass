@@ -38,6 +38,13 @@ const routes = [
         props: true,
       },
       {
+        path: 'users/add',
+        name: 'UserAdd',
+        component: () => import('../pages/admin/users/UserAdd.vue'),
+        meta: { requiresAuth: true, requiresAdmin: true },
+        props: true,
+      },
+      {
         path: 'users/:id',
         name: 'UserDetail',
         component: () => import('../pages/admin/users/UserDetail.vue'),

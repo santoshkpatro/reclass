@@ -1,16 +1,13 @@
 <template>
-  <div class="base-input">
-    <label for class="text-lg">{{ label }}</label>
-    <input
-      :type="type"
-      :name="name"
-      :value="modelValue"
-      :placeholder="placeholder"
-      @input="$emit('update:modelValue', $event.target.value)"
-      class="input-field"
-    />
-    <div class="form-text">{{ message }}</div>
-  </div>
+  <label class="form-label fw-bold" v-if="label">{{ label }}</label>
+  <input
+    v-bind="$attrs"
+    class="form-control"
+    :placeholder="label"
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+  />
+  <div class="form-text" v-if="message">{{ message }}</div>
 </template>
 
 <script>
@@ -21,24 +18,12 @@ export default {
       type: String,
       default: '',
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
     message: {
       type: String,
       default: '',
     },
     modelValue: {
       type: [String, Number],
-      default: '',
-    },
-    placeholder: {
-      type: String,
       default: '',
     },
   },

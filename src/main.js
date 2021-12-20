@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.css'
 
 const requireComponent = require.context(
-  './common/base',
+  './views/base',
   false,
   /Base[A-Z]\w+\.(vue|js)$/
 )

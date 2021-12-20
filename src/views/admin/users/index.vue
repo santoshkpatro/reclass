@@ -33,7 +33,11 @@
         </th>
         <td class="d-flex flex-column">
           <span>
-            {{ user.first_name }}
+            <router-link
+              :to="{ name: 'AdminUserDetail', params: { user_id: user.id } }"
+            >
+              {{ user.first_name }}
+            </router-link>
           </span>
           <span class="fw-light">
             {{ user.email }}
@@ -105,3 +109,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>

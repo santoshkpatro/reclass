@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import adminRoutes from './admin.js'
 
 const routes = [
   {
@@ -22,20 +23,7 @@ const routes = [
     name: 'AdminDashboard',
     component: () => import('../views/admin/Dashboard.vue'),
     meta: { requiresAuth: true, requiresAdmin: true },
-    children: [
-      {
-        path: '',
-        name: 'AdminOverview',
-        component: () => import('../views/admin/overview'),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
-      {
-        path: 'users',
-        name: 'AdminUsers',
-        component: () => import('../views/admin/users'),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
-    ],
+    children: adminRoutes,
   },
   {
     path: '/unauthorized',

@@ -2,7 +2,11 @@
   <div class="position-sticky pt-md-5">
     <ul class="nav flex-column">
       <li class="nav-item border-end border-3 border-primary">
-        <a class="nav-link" aria-current="page" href="#">
+        <router-link
+          class="nav-link"
+          aria-current="page"
+          :to="{ name: 'AdminOverview' }"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -19,10 +23,10 @@
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
           <span class="ml-2">Overview</span>
-        </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <router-link class="nav-link" :to="{ name: 'AdminUsers' }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -40,8 +44,8 @@
             ></path>
             <polyline points="13 2 13 9 20 9"></polyline>
           </svg>
-          <span class="ml-2">Orders</span>
-        </a>
+          <span class="ml-2">Users</span>
+        </router-link>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">

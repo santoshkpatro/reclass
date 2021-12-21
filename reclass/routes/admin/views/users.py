@@ -1,12 +1,13 @@
 import os
 import uuid
 import mimetypes
+import time
 from django.db.models import Q
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from rest_framework import generics, permissions, serializers, views, status
 from rest_framework.response import Response
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FileUploadParser, MultiPartParser
 from reclass.models import User, Enrollment, Subject
 from ..permissions import IsAdminUser
 from ..helpers import file_extension, handle_file_upload
@@ -69,17 +70,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserAvatarUpload(views.APIView):
-    parser_classes = [FileUploadParser]
+    parser_classes = [MultiPartParser]
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
-    def put(self, request, pk, filename, format=None):
+    def put(self, request, pk, format=None):
         try:
             user = User.objects.get(id=pk)
 
-            file_obj = request.data['file']
+            file_obj = request.FILES['file']
+            # print(file_obj.name.lower())
             fs = FileSystemStorage()
-            file_type = request.META['CONTENT_TYPE']
-            ext = mimetypes.guess_extension(file_type)
+            # file_type = request.META['CONTENT_TYPE']
+            ext = os.path.splitext(file_obj.name.lower())[1]
             file_name = 'avatars/' + uuid.uuid4().hex + ext
             file = fs.save(file_name, file_obj)
 
@@ -90,6 +92,8 @@ class UserAvatarUpload(views.APIView):
 
             user.avatar = 'http://127.0.0.1:8000' + fs.url(file)
             user.save()
+
+            # time.sleep(5)
 
             serializer = UserSerializer(instance=user)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)

@@ -10,5 +10,14 @@ export const getUsers = (query = {}) =>
   })
 export const getUser = (id) => http.get(`/users/${id}/`)
 export const updateUser = (id, data) => http.patch(`/users/${id}/`, data)
+export const updateUserAvatar = (
+  id,
+  formData,
+  config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }
+) => http.put(`/users/${id}/avatar/`, formData, config)
 
 export const getSubjects = () => http.get('/subjects/')

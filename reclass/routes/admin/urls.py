@@ -12,7 +12,7 @@ urlpatterns = [
     # Users routes
     path('users/', UserListView.as_view()),
     path('users/<int:pk>/', UserDetailView.as_view()),
-    path('users/<int:pk>/avatar/<str:filename>/', UserAvatarUpload.as_view()),
+    path('users/<int:pk>/avatar/', UserAvatarUpload.as_view()),
 
     # Subjects routes
     path('subjects/', SubjectListView.as_view()),

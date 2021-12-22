@@ -4,6 +4,9 @@ const http = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/admin',
 })
 
+export const fileUpload = (filename, config = {}, formData) =>
+  http.put(`/upload/${filename}/`, formData, config)
+
 export const getUsers = (query = {}) =>
   http.get('/users/', {
     params: query,

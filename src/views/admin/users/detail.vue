@@ -1,154 +1,177 @@
 <template>
-  <h1>User Detail {{ user_id }}</h1>
-  <div class="row">
-    <div class="col-8">
-      <form v-if="user" @submit.prevent="updateUserDetails">
-        <BaseInput label="Email" disabled :value="user.email" />
-        <BaseInput label="First Name" v-model="user.first_name" />
-        <BaseInput label="Last Name" v-model="user.last_name" />
-        <BaseInput label="Phone" v-model="user.phone" />
-        <p class="fw-bold mt-3">Roles</p>
-        <BaseCheckbox
-          label="Instructor?"
-          v-model="user.is_instructor"
-          class="my-2"
-        />
-        <BaseToggle label="Active?" v-model="user.is_active" class="my-2" />
-        <BaseSelect label="Gender" v-model="user.gender" :options="gender" />
-        <button
-          class="btn btn-primary mt-3"
-          type="submit"
-          :disabled="isUpdateLoading"
-        >
-          <span
-            v-if="isUpdateLoading"
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          <span>Update</span>
-        </button>
-      </form>
-    </div>
-    <div class="col-4">
-      <div class="text-center" v-if="user">
-        <img :src="user.avatar" />
-        <p>Change avatar?</p>
-        <input
-          type="file"
-          class="form-control my-3"
-          id="inputGroupFile04"
-          aria-describedby="inputGroupFileAddon04"
-          aria-label="Upload"
-          @change="newAvatar = $event.target.files[0]"
-        />
-        <button
-          class="btn btn-primary btn-sm"
-          @click="userAvatarChange"
-          :disabled="isAvatarUploading"
-        >
-          <span
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-            v-if="isAvatarUploading"
-          ></span>
-          <span v-if="isAvatarUploading"
-            >{{ avatarUploadingProgress }}% Updating</span
-          >
-          <span v-if="!isAvatarUploading"> Update </span>
-        </button>
+  <div v-if="isLoading">
+    <Placeholder />
+  </div>
+  <div v-else>
+    <h1>User Detail {{ user_id }}</h1>
+    <form @submit.prevent="updateUserDetail">
+      <div class="row">
+        <div class="col-8">
+          <BaseInput
+            label="Email"
+            v-model="user.email"
+            name="email"
+            disabled="true"
+          />
+          <BaseInput
+            label="First Name"
+            v-model="user.first_name"
+            name="first_name"
+          />
+          <BaseInput
+            label="Last Name"
+            v-model="user.last_name"
+            name="last_name"
+          />
+          <BaseInput label="Phone" v-model="user.phone" name="phone" />
+          <div class="d-grid gap-2 mt-3">
+            <button
+              class="btn btn-primary"
+              :disabled="isUpdating"
+              type="submit"
+            >
+              <span
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+                v-if="isUpdating"
+              ></span>
+              <span v-if="isUpdating">{{ uploadProgress }} %</span>
+              <span>Update</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-4 text-center">
+          <img :src="user.avatar" />
+          <div class="image-upload">
+            <label for="file-input">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-pencil-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                />
+              </svg>
+            </label>
+            <input
+              id="file-input"
+              type="file"
+              @change="newUserAvatar = $event.target.files[0]"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
-import { getUser, updateUser, updateUserAvatar } from '@/api/admin'
-import BaseInput from '@/views/base/BaseInput.vue'
-import BaseCheckbox from '@/views/base/BaseCheckbox.vue'
-import BaseSelect from '@/views/base/BaseSelect.vue'
-import BaseToggle from '@/views/base/BaseToggle.vue'
+import { getUser, updateUser, fileUpload } from '@/api/admin'
+import { v4 as uuidv4 } from 'uuid'
+import Placeholder from './_placeholder.vue'
 
 export default {
   name: 'AdminUserDetail',
+  components: {
+    Placeholder,
+  },
   props: ['user_id'],
   data() {
     return {
+      isLoading: true,
       user: null,
-      isUpdateLoading: false,
-      newAvatar: null,
-      gender: ['Male', 'Female'],
-      isAvatarUploading: false,
-      avatarUploadingProgress: 0,
+      isUpdating: false,
+      uploadProgress: 0,
+      newUserAvatar: null,
     }
   },
   methods: {
-    loadUserDetail(user_id) {
-      getUser(user_id)
-        .then(({ data }) => {
-          this.user = data
-        })
-        .catch((e) => {
-          console.log(e)
-        })
-    },
-    updateUserDetails() {
-      this.isUpdateLoading = true
-      setTimeout(() => {
-        updateUser(this.user_id, this.user)
+    updateUserDetail() {
+      this.isUpdating = true
+      if (this.newUserAvatar) {
+        const extension = this.newUserAvatar.type.split('/')[1]
+        const filename = `${uuidv4()}.${extension}`
+        const location = 'avatars/'
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          params: {
+            location: location,
+          },
+          onUploadProgress: function (progressEvent) {
+            this.uploadProgress = parseInt(
+              Math.round((progressEvent.loaded / progressEvent.total) * 100)
+            )
+          }.bind(this),
+        }
+
+        let formData = new FormData()
+        formData.append('file', this.newUserAvatar)
+
+        fileUpload(filename, config, formData)
           .then(({ data }) => {
-            this.user = data
-            this.isUpdateLoading = false
+            this.user.avatar = data
+
+            // Calling the regular update API with new url
+            updateUser(this.user_id, this.user)
+              .then(({ data }) => {
+                this.user = data
+              })
+              .catch((e) => {
+                console.log(e)
+              })
           })
           .catch((e) => {
             console.log(e)
-            this.isUpdateLoading = false
           })
-      }, 3000)
-    },
-    processAvatar(event) {
-      this.newAvatar = event.target.files[0]
-    },
-    userAvatarChange() {
-      this.isAvatarUploading = true
-      let formData = new FormData()
-      formData.append('file', this.newAvatar)
-      updateUserAvatar(this.user_id, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        onUploadProgress: function (progressEvent) {
-          this.avatarUploadingProgress = parseInt(
-            Math.round((progressEvent.loaded / progressEvent.total) * 100)
-          )
-        }.bind(this),
-      })
-        .then(({ data }) => {
-          this.isAvatarUploading = false
-          this.user.avatar = data.avatar
-          this.newAvatar = null
-        })
-        .catch((e) => {
-          console.log(e)
-        })
-        .finally(() => {
-          this.isAvatarUploading = false
-        })
+          .finally(() => (this.isUpdating = false))
+      } else {
+        updateUser(this.user_id, this.user)
+          .then(({ data }) => {
+            this.user = data
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+          .finally(() => (this.isUpdating = false))
+      }
     },
   },
   mounted() {
-    this.loadUserDetail(this.user_id)
+    console.log(process.env['NODE_ENV'])
+    getUser(this.user_id)
+      .then(({ data }) => {
+        this.user = data
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+      .finally(() => {
+        this.isLoading = false
+      })
   },
-  components: { BaseInput, BaseCheckbox, BaseSelect },
 }
 </script>
 
-<style>
+<style scoped>
 img {
   border: solid 1px black;
   border-radius: 50%;
   height: 100px;
   width: 100px;
+}
+
+.image-upload > input {
+  display: none;
 }
 </style>

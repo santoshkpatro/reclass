@@ -78,29 +78,30 @@ class UserAvatarUpload(views.APIView):
             user = User.objects.get(id=pk)
 
             file_obj = request.FILES['file']
-            # print(file_obj.name.lower())
             fs = FileSystemStorage()
-            # file_type = request.META['CONTENT_TYPE']
             ext = os.path.splitext(file_obj.name.lower())[1]
             file_name = 'avatars/' + uuid.uuid4().hex + ext
             file = fs.save(file_name, file_obj)
-
-            # ext = file_extension(file_obj)
-            # print(ext)
-            # file_name = f'avatars/{uuid.uuid4().hex}.png'
-            # url = handle_file_upload(file_obj, file_name)
-
             user.avatar = 'http://127.0.0.1:8000' + fs.url(file)
             user.save()
-
-            # time.sleep(5)
-
             serializer = UserSerializer(instance=user)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(status=204)
+
+
+# class UserAvatar(views.APIView):
+#     parser_classes = [MultiPartParser]
+#     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
+
+#     def get(self, request, pk):
+#         pass
+
+#     # Valid for local upload only
+#     def put(self, request, pk):
+#         pass
 
 
 class UserListView(generics.ListCreateAPIView):

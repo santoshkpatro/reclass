@@ -50,14 +50,44 @@
           required="true"
         />
         <BaseInput
+          label="Last Name"
+          name="last_name"
+          v-model="user.last_name"
+        />
+        <BaseInput
           label="Password"
           name="password"
           type="password"
           v-model="user.password"
         />
-
+        <BaseToggle
+          label="Active"
+          name="is_active"
+          v-model="user.is_active"
+          class="my-2"
+        />
+        <BaseToggle
+          label="Password Reset"
+          name="password_reset_required"
+          v-model="user.password_reset_required"
+          class="my-2"
+        />
+        <p class="fw-bold">Role</p>
+        <BaseCheckbox
+          label="Instructor?"
+          name="is_instructor"
+          v-model="user.is_instructor"
+        />
         <div class="d-grid gap-2 my-3">
-          <button class="btn btn-primary"><span> Add </span></button>
+          <button class="btn btn-primary">
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+              v-if="isAdding"
+            ></span>
+            <span> Add </span>
+          </button>
         </div>
       </form>
     </div>
@@ -72,6 +102,7 @@ export default {
   data() {
     return {
       showMenu: false,
+      isAdding: false,
       user: {
         email: null,
         password: null,
@@ -82,12 +113,13 @@ export default {
         phone: null,
         password_reset_required: false,
         is_active: true,
+        is_instructor: false,
       },
     }
   },
   methods: {
     addNewUser() {
-      //   console.log(this.user)
+      this.isAdding = true
       addUser(this.user)
         .then(({ data }) => {
           console.log(data)
@@ -96,6 +128,7 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+        .finally(() => (this.isAdding = false))
     },
   },
 }

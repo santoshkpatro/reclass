@@ -39,7 +39,7 @@
             <router-link
               :to="{ name: 'AdminUserDetail', params: { user_id: user.id } }"
             >
-              {{ user.first_name }}
+              {{ user.first_name }} {{ user.last_name }}
             </router-link>
           </span>
           <span class="fw-light">
@@ -49,6 +49,7 @@
         <td>
           <div class="form-check form-switch">
             <input
+              @click="updateUserStatus(user)"
               class="form-check-input"
               type="checkbox"
               role="switch"
@@ -70,7 +71,7 @@ import UserAddForm from './_add.vue'
 import axios from 'axios'
 import _ from 'lodash'
 import dayjs from 'dayjs'
-import { getUsers } from '@/api/admin'
+import { getUsers, updateUser } from '@/api/admin'
 
 getUsers
 export default {
@@ -84,6 +85,7 @@ export default {
         count: 0,
         users: [],
         showAddMenu: false,
+        toast: null,
       },
     }
   },
@@ -96,6 +98,15 @@ export default {
         .then(({ data }) => {
           this.list.count = data.count
           this.list.users = data.results
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    updateUserStatus(user) {
+      updateUser(user.id, { is_active: !user.is_active })
+        .then(({ data }) => {
+          console.log(data)
         })
         .catch((e) => {
           console.log(e)

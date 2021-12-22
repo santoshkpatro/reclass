@@ -1,8 +1,8 @@
 <template>
   <h1>Overview</h1>
   <div class="row">
-    <Count title="Users" :count="users.count" class="col-3" />
-    <Count title="Subjects" :count="subjects.count" class="col-3" />
+    <Count title="Users" :count="users.count" class="col-3 mx-3 my-3" />
+    <Count title="Subjects" :count="subjects.count" class="col-3 mx-3 my-3" />
   </div>
 </template>
 

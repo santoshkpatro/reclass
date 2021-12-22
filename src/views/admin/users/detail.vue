@@ -84,6 +84,26 @@
         </div>
       </div>
     </form>
+    <hr />
+    <div class="mt-3">
+      <div class="row">
+        <div class="col-6">
+          <h5>Enrolled Subjects</h5>
+          <ul class="list-group">
+            <li
+              class="list-group-item"
+              v-for="enrollment in user.enrolled"
+              :key="enrollment.id"
+            >
+              {{ enrollment.subject.title }}
+              <span class="badge bg-secondary">{{
+                enrollment.subject.subject_code
+              }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

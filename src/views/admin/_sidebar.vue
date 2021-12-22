@@ -1,7 +1,12 @@
 <template>
   <div class="position-sticky pt-md-5">
     <ul class="nav flex-column">
-      <li class="nav-item border-end border-3 border-primary">
+      <li
+        class="nav-item"
+        :class="{
+          'border-end border-3 border-dark': $route.name === 'AdminOverview',
+        }"
+      >
         <router-link
           class="nav-link"
           aria-current="page"
@@ -25,7 +30,12 @@
           <span class="ml-2">Overview</span>
         </router-link>
       </li>
-      <li class="nav-item">
+      <li
+        class="nav-item"
+        :class="{
+          'border-end border-3 border-dark': $route.name === 'AdminUsers',
+        }"
+      >
         <router-link class="nav-link" :to="{ name: 'AdminUsers' }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -138,4 +148,15 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover,
+:focus {
+  text-decoration: underline;
+  color: black;
+}
+</style>

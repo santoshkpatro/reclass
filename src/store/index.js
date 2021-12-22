@@ -6,20 +6,27 @@ export default createStore({
     profile: null,
   },
   mutations: {
-    setProfile(state, profileData) {
-      state.profile = profileData
+    SET_PROFILE(state, userData) {
+      state.profile = userData
+    },
+    REMOVE_PROFILE(state) {
+      state.profile = null
+    },
+  },
+  actions: {
+    login({ commit }, userData) {
+      commit('SET_PROFILE', userData)
       axios.defaults.headers.common[
         'Authorization'
-      ] = `Bearer ${profileData.access_token}`
-      localStorage.setItem('profile', JSON.stringify(profileData))
+      ] = `Bearer ${userData.access_token}`
+      localStorage.setItem('profile', JSON.stringify(userData))
     },
-    removeProfile(state) {
-      state.profile = null
+    logout({ commit }) {
+      commit('REMOVE_PROFILE')
       localStorage.removeItem('profile')
       location.reload()
     },
   },
-  actions: {},
   modules: {},
   getters: {
     loggedIn(state) {
@@ -27,14 +34,18 @@ export default createStore({
     },
 
     role(state) {
-      if (state.profile.is_admin) {
-        return 'admin'
-      } else {
-        if (state.profile.is_instructor) {
-          return 'instructor'
+      if (state.profile) {
+        if (state.profile.is_admin) {
+          return 'admin'
         } else {
-          return 'student'
+          if (state.profile.is_instructor) {
+            return 'instructor'
+          } else {
+            return 'student'
+          }
         }
+      } else {
+        return 'user'
       }
     },
   },

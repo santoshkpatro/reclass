@@ -1,9 +1,12 @@
 <template>
   <div class="d-flex justify-content-between mb-2">
-    <h3>Users</h3>
     <div>
+      <h3>Users</h3>
+    </div>
+    <div class="d-flex align-items-center">
+      <UserAddForm @newUser="loadUsers" />
       <input
-        class="form-control"
+        class="form-control ms-2"
         type="search"
         placeholder="Search user"
         aria-label="Search"
@@ -63,6 +66,7 @@
 </template>
 
 <script>
+import UserAddForm from './_add.vue'
 import axios from 'axios'
 import _ from 'lodash'
 import dayjs from 'dayjs'
@@ -71,11 +75,15 @@ import { getUsers } from '@/api/admin'
 getUsers
 export default {
   name: 'AdminUsers',
+  components: {
+    UserAddForm,
+  },
   data() {
     return {
       list: {
         count: 0,
         users: [],
+        showAddMenu: false,
       },
     }
   },

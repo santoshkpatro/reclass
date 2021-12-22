@@ -24,6 +24,19 @@
             name="last_name"
           />
           <BaseInput label="Phone" v-model="user.phone" name="phone" />
+          <BaseSelect
+            v-model="user.gender"
+            :options="['Male', 'Female']"
+            label="Gender"
+          />
+          <BaseToggle class="my-3" label="Active" v-model="user.is_active" />
+          <BaseToggle
+            class="my-3"
+            label="Password Reset"
+            v-model="user.password_reset_required"
+          />
+          <p class="fw-bold">Role</p>
+          <BaseCheckbox label="Instructor" v-model="user.is_instructor" />
           <div class="d-grid gap-2 mt-3">
             <button
               class="btn btn-primary"
@@ -78,11 +91,13 @@
 import { getUser, updateUser, fileUpload } from '@/api/admin'
 import { v4 as uuidv4 } from 'uuid'
 import Placeholder from './_placeholder.vue'
+import BaseSelect from '../../base/BaseSelect.vue'
 
 export default {
   name: 'AdminUserDetail',
   components: {
     Placeholder,
+    BaseSelect,
   },
   props: ['user_id'],
   data() {
@@ -122,7 +137,7 @@ export default {
           .then(({ data }) => {
             this.user.avatar = data
 
-            // Calling the regular update API with new url
+            // Calling the regular update API with new avatar url
             updateUser(this.user_id, this.user)
               .then(({ data }) => {
                 this.user = data
@@ -148,7 +163,6 @@ export default {
     },
   },
   mounted() {
-    console.log(process.env['NODE_ENV'])
     getUser(this.user_id)
       .then(({ data }) => {
         this.user = data

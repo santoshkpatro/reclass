@@ -1,16 +1,12 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="container mt-2">
+    <h1>Welcome to Reclass</h1>
   </div>
 </template>
 
 <script>
-import HelloWorld from '@/common/HelloWorld.vue'
-
 export default {
   name: 'Home',
-  components: {
-    HelloWorld,
-  },
+  components: {},
 }
 </script>

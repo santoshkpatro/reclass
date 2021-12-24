@@ -24,6 +24,8 @@ jobs:
         run: npm install
 
       - name: Build the package
+        env:
+          VUE_APP_BASE_URL: ${{ secrets.VUE_APP_BASE_URL }}
         run: npm run build
 
       - name: Deploy images to AWS S3

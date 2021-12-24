@@ -1,10 +1,7 @@
 <template>
   <div class="d-flex justify-content-between mb-2">
-    <div>
-      <h3>Users</h3>
-    </div>
     <div class="d-flex align-items-center">
-      <UserAddForm @newUser="loadUsers" />
+      <h3>Users</h3>
       <input
         class="form-control ms-2"
         type="search"
@@ -12,6 +9,9 @@
         aria-label="Search"
         @input="handleSearch"
       />
+    </div>
+    <div>
+      <UserAddForm @newUser="loadUsers" />
     </div>
   </div>
   <table class="table">

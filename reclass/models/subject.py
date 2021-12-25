@@ -8,7 +8,7 @@ class ActiveSubject(models.Manager):
 
 class Subject(models.Model):
     title = models.CharField(max_length=150)
-    subject_code = models.CharField(max_length=10)
+    subject_code = models.CharField(max_length=10, unique=True)
     description = models.TextField(blank=True, null=True)
     thumbnail = models.URLField(blank=True, null=True)
     is_active = models.BooleanField(default=True)

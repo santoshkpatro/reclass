@@ -5,3 +5,11 @@ const http = axios.create({
 })
 
 export const login = (data) => http.post('/auth/login/', data)
+
+export const passwordReset = (data) => http.post('/auth/password_reset/', data)
+
+export const passwordResetVerify = (token) =>
+  http.get(`/auth/password_reset/verify/${token}/`)
+
+export const passwordResetConfirm = (token, data) =>
+  http.post(`/auth/password_reset/confirm/${token}/`, data)

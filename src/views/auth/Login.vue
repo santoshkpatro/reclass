@@ -17,6 +17,7 @@
         required="true"
       />
       <BaseCheckbox label="Remember me" v-model="remember_me" />
+      <router-link :to="{ name: 'PasswordReset' }">Forgot Password</router-link>
       <div class="d-grid gap-2">
         <button
           class="btn btn-primary my-3"
@@ -54,10 +55,8 @@ export default {
       this.isLoading = true
       login({ email: this.email, password: this.password })
         .then(({ data }) => {
-          setTimeout(() => {
-            this.$store.dispatch('login', data)
-            this.$router.push({ name: 'Home' })
-          }, 5000)
+          this.$store.dispatch('login', data)
+          this.$router.push({ name: 'Home' })
         })
         .catch((e) => {
           this.isLoading = false

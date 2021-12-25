@@ -19,6 +19,17 @@ const routes = [
     component: () => import('../views/auth/Login.vue'),
   },
   {
+    path: '/auth/password_reset',
+    name: 'PasswordReset',
+    component: () => import('../views/auth/PasswordReset.vue'),
+  },
+  {
+    path: '/auth/password_reset/confirm/:token',
+    name: 'PasswordResetConfirm',
+    props: true,
+    component: () => import('../views/auth/PasswordResetConfirm.vue'),
+  },
+  {
     path: '/admin',
     name: 'AdminDashboard',
     component: () => import('../views/admin/Dashboard.vue'),

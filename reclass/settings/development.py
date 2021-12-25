@@ -63,6 +63,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'
 
+FRONTEND_BASE_URL = os.environ.get(
+    'FRONTEND_BASE_URL', 'http://127.0.0.1:8080'
+)
+
 # AWS Global Settings
 AWS_REGION = os.environ.get('AWS_REGION', 'ap-south-1')
 

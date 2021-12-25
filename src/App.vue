@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Navbar from './common/Navbar.vue'
+import Navbar from '@/views/common/Navbar.vue'
 import axios from 'axios'
 
 export default {

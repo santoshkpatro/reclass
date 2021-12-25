@@ -2,6 +2,7 @@ import uuid
 from django.contrib.auth import authenticate, login
 from django.utils import timezone
 from django.core.mail import send_mail
+from django.conf import settings
 from rest_framework import viewsets, serializers, status, generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -106,9 +107,10 @@ def password_reset(request):
         user.save()
 
         # Send Email
+        url = f'{settings.FRONTEND_BASE_URL}/auth/password_reset/confirm/{user.password_reset_token}'
         send_mail(
             subject='Password Reset Link',
-            message=f'Password reset link {user.password_reset_token}',
+            message=f'Password Reset link has been shared click {url} to reset your password',
             from_email='noreply@reclass.com',
             recipient_list=[user.email],
             fail_silently=True

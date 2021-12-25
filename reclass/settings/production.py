@@ -59,6 +59,10 @@ SIMPLE_JWT = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+FRONTEND_BASE_URL = os.environ.get(
+    'FRONTEND_BASE_URL', 'reclass.skpatro23.com'
+)
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'

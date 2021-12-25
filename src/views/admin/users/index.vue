@@ -9,6 +9,7 @@
         aria-label="Search"
         @input="handleSearch"
       />
+      <BaseSelect :options="[20, 50, 100]" v-model="limit" @click="loadUsers" />
     </div>
     <div>
       <UserAddForm @newUser="loadUsers" />
@@ -64,6 +65,22 @@
       </tr>
     </tbody>
   </table>
+  <div class="d-flex justify-content-between">
+    <button
+      class="btn btn-sm btn-dark"
+      :disabled="offset === 0"
+      @click="handlePrevious"
+    >
+      Previous
+    </button>
+    <button
+      class="btn btn-sm btn-dark"
+      @click="handleNext"
+      :disabled="limit + offset >= list.count"
+    >
+      Next
+    </button>
+  </div>
 </template>
 
 <script>
@@ -72,21 +89,26 @@ import axios from 'axios'
 import _ from 'lodash'
 import dayjs from 'dayjs'
 import { getUsers, updateUser } from '@/api/admin'
+import BaseSelect from '../../base/BaseSelect.vue'
 
 getUsers
 export default {
   name: 'AdminUsers',
   components: {
     UserAddForm,
+    BaseSelect,
   },
   data() {
     return {
       list: {
         count: 0,
         users: [],
-        showAddMenu: false,
-        toast: null,
       },
+      toast: null,
+      limit: 20,
+      offset: 0,
+      cancelToken: undefined,
+      search: null,
     }
   },
   methods: {
@@ -94,7 +116,12 @@ export default {
       return new dayjs(date).format('DD-MM-YYYY')
     },
     loadUsers(query = {}) {
-      getUsers(query)
+      getUsers({
+        ...query,
+        limit: this.limit,
+        offset: this.offset,
+        search: this.search,
+      })
         .then(({ data }) => {
           this.list.count = data.count
           this.list.users = data.results
@@ -117,14 +144,23 @@ export default {
         this.cancelToken.cancel('Cancelling previous request')
       }
       this.cancelToken = axios.CancelToken.source()
-      this.loadUsers(
-        { search: e.target.value },
-        { cancelToken: this.cancelToken.token }
-      )
+
+      this.limit = 20
+      this.offset = 0
+      this.search = e.target.value
+      this.loadUsers({ cancelToken: this.cancelToken.token })
     }, 500),
+    handleNext() {
+      this.offset = this.offset + this.limit
+      this.loadUsers()
+    },
+    handlePrevious() {
+      this.offset = this.offset - this.limit
+      this.loadUsers()
+    },
   },
   mounted() {
-    this.loadUsers()
+    this.loadUsers({ limit: this.limit, offset: this.offset })
   },
 }
 </script>

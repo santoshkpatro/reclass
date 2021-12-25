@@ -18,4 +18,10 @@ export default [
     props: true,
     meta: { requiresAuth: true, requiresAdmin: true },
   },
+  {
+    path: 'subjects',
+    name: 'AdminSubjects',
+    component: () => import('../views/admin/subjects'),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
 ]

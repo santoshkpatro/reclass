@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     gender = models.CharField(max_length=7, blank=True, null=True)
-    avatar = models.URLField(blank=True, null=True)
+    avatar = models.CharField(max_length=200, blank=True, null=True)
 
     password_reset_token = models.CharField(
         max_length=50,

@@ -115,6 +115,9 @@ export default {
     formatDate(date) {
       return new dayjs(date).format('DD-MM-YYYY')
     },
+    resource_url(url) {
+      return process.env.VUE_APP_MEDIA_URL + '/' + url
+    },
     loadUsers(query = {}) {
       getUsers({
         ...query,

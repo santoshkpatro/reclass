@@ -71,6 +71,6 @@ FRONTEND_BASE_URL = os.environ.get(
 AWS_REGION = os.environ.get('AWS_REGION', 'ap-south-1')
 
 # AWS S3 Credentials
-AWS_S3_BUCKET_NAME = os.environ.get('AWS_S3_BUKCET_NAME')
+AWS_S3_BUCKET_NAME = os.environ.get('AWS_S3_BUCKET_NAME')
 AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')

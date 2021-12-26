@@ -9,6 +9,11 @@ const http = axios.create({
 export const fileUpload = (filename, config = {}, formData) =>
   http.put(`/upload/${filename}/`, formData, config)
 
+export const getUploadUrl = (filename, query) =>
+  http.get(`/upload/${filename}`, {
+    params: query,
+  })
+
 export const addUser = (data) => http.post('/users/', data)
 export const getUsers = (query = {}) =>
   http.get('/users/', {

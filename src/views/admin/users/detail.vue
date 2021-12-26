@@ -55,7 +55,7 @@
           </div>
         </div>
         <div class="col-4 text-center">
-          <img :src="user.avatar" />
+          <img :src="resource_url(user.avatar)" alt="NA" />
           <div class="image-upload">
             <label for="file-input">
               <svg
@@ -108,7 +108,8 @@
 </template>
 
 <script>
-import { getUser, updateUser, fileUpload } from '@/api/admin'
+import axios from 'axios'
+import { getUser, updateUser, fileUpload, getUploadUrl } from '@/api/admin'
 import { v4 as uuidv4 } from 'uuid'
 import Placeholder from './_placeholder.vue'
 import BaseSelect from '../../base/BaseSelect.vue'
@@ -130,46 +131,87 @@ export default {
     }
   },
   methods: {
+    resource_url(url) {
+      return process.env.VUE_APP_MEDIA_URL + '/' + url
+    },
     updateUserDetail() {
       this.isUpdating = true
       if (this.newUserAvatar) {
+        // const extension = this.newUserAvatar.type.split('/')[1]
+        // const filename = `${uuidv4()}.${extension}`
+        // const location = 'avatars/'
+        // const config = {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data',
+        //   },
+        //   params: {
+        //     location: location,
+        //   },
+        //   onUploadProgress: function (progressEvent) {
+        //     this.uploadProgress = parseInt(
+        //       Math.round((progressEvent.loaded / progressEvent.total) * 100)
+        //     )
+        //   }.bind(this),
+        // }
+
+        // let formData = new FormData()
+        // formData.append('file', this.newUserAvatar)
+
+        // fileUpload(filename, config, formData)
+        //   .then(({ data }) => {
+        //     this.user.avatar = data
+
+        //     // Calling the regular update API with new avatar url
+        //     updateUser(this.user_id, this.user)
+        //       .then(({ data }) => {
+        //         this.user = data
+        //       })
+        //       .catch((e) => {
+        //         console.log(e)
+        //       })
+        //   })
+        //   .catch((e) => {
+        //     console.log(e)
+        //   })
+        //   .finally(() => (this.isUpdating = false))
+
         const extension = this.newUserAvatar.type.split('/')[1]
         const filename = `${uuidv4()}.${extension}`
         const location = 'avatars/'
-        const config = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          params: {
-            location: location,
-          },
-          onUploadProgress: function (progressEvent) {
-            this.uploadProgress = parseInt(
-              Math.round((progressEvent.loaded / progressEvent.total) * 100)
-            )
-          }.bind(this),
-        }
 
-        let formData = new FormData()
-        formData.append('file', this.newUserAvatar)
-
-        fileUpload(filename, config, formData)
+        getUploadUrl(filename, { location: location })
           .then(({ data }) => {
-            this.user.avatar = data
+            var file = this.newUserAvatar
+            var http = axios.create()
+            delete http.defaults.headers.common['Authorization']
+            http
+              .put(data, file, {
+                headers: {
+                  'Content-Type': file.type,
+                },
+                onUploadProgress: function (progressEvent) {
+                  this.uploadProgress = parseInt(
+                    Math.round(
+                      (progressEvent.loaded / progressEvent.total) * 100
+                    )
+                  )
+                }.bind(this),
+              })
+              .then((res) => {
+                this.user.avatar = location + filename
+                updateUser(this.user_id, this.user)
+                  .then(({ data }) => {
+                    this.user = data
+                  })
+                  .catch((e) => {
+                    console.log(e)
+                  })
 
-            // Calling the regular update API with new avatar url
-            updateUser(this.user_id, this.user)
-              .then(({ data }) => {
-                this.user = data
+                this.isUpdating = false
               })
-              .catch((e) => {
-                console.log(e)
-              })
+              .catch()
           })
-          .catch((e) => {
-            console.log(e)
-          })
-          .finally(() => (this.isUpdating = false))
+          .catch((e) => console.log(e))
       } else {
         updateUser(this.user_id, this.user)
           .then(({ data }) => {

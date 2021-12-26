@@ -1,12 +1,29 @@
 import os
 from . base import *
 from datetime import timedelta
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 DEBUG = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'randomRandomRandom')
 
 ALLOWED_HOSTS = ['*']
+
+# Sentry integration
+sentry_sdk.init(
+    dsn=os.environ.get('SENTRY_DSN'),
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # These apps are required for having admin panel in devlopement mode only
 INSTALLED_APPS.append('django.contrib.admin')

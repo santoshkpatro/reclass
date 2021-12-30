@@ -34,7 +34,14 @@ class FileUploadMixin:
         else:
             return False
 
-    def get_urls(self, file_type, expiration=3600):
+    def get_urls(self, expiration=3600):
+        if not 'file_type' in self.request.query_params:
+            raise APIException(detail='File type not found',
+                               code=status.HTTP_404_NOT_FOUND)
+        file_type = self.request.query_params['file_type']
+        if not self.check_file_extension(file_type):
+            raise APIException(detail='File type not supported',
+                               code=status.HTTP_400_BAD_REQUEST)
 
         if os.environ.get('DJANGO_SETTINGS_MODULE') == 'reclass.settings.production':
             try:

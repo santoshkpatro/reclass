@@ -4,9 +4,10 @@
   </div>
   <div v-else>
     <h1>User Detail {{ user_id }}</h1>
-    <form @submit.prevent="updateUserDetail">
-      <div class="row">
-        <div class="col-8">
+
+    <div class="row">
+      <div class="col-8">
+        <form @submit.prevent="updateUserDetail">
           <BaseInput
             label="Email"
             v-model="user.email"
@@ -53,37 +54,44 @@
               <span>Update</span>
             </button>
           </div>
-        </div>
-        <div class="col-4 text-center">
-          <img :src="resource_url(user.avatar)" alt="NA" />
-          <div class="image-upload">
-            <label for="file-input">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="currentColor"
-                class="bi bi-pencil-square"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
-                />
-                <path
-                  fill-rule="evenodd"
-                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                />
-              </svg>
-            </label>
-            <input
-              id="file-input"
-              type="file"
-              @change="newUserAvatar = $event.target.files[0]"
-            />
-          </div>
+        </form>
+      </div>
+      <div class="col-4 text-center">
+        <img :src="resource(user.avatar)" alt="NA" />
+        <div class="image-upload">
+          <label for="file-input">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-pencil-square"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+              />
+            </svg>
+          </label>
+          <input
+            id="file-input"
+            type="file"
+            @change="newUserAvatar = $event.target.files[0]"
+          />
+          <button
+            class="btn btn-dark btn-sm"
+            :disabled="!newUserAvatar"
+            @click="updateUserAvatar"
+          >
+            Update
+          </button>
         </div>
       </div>
-    </form>
+    </div>
     <hr />
     <div class="mt-3">
       <div class="row">
@@ -109,8 +117,12 @@
 
 <script>
 import axios from 'axios'
-import { getUser, updateUser, fileUpload, getUploadUrl } from '@/api/admin'
-import { v4 as uuidv4 } from 'uuid'
+import {
+  getUser,
+  updateUser,
+  localFileUpload,
+  getAvatarUploadUrl,
+} from '@/api/admin'
 import Placeholder from './_placeholder.vue'
 import BaseSelect from '../../base/BaseSelect.vue'
 
@@ -131,98 +143,122 @@ export default {
     }
   },
   methods: {
-    resource_url(url) {
+    resource(url) {
       return process.env.VUE_APP_MEDIA_URL + '/' + url
+    },
+    updateUserAvatar() {
+      var file = this.newUserAvatar
+      getAvatarUploadUrl(this.user_id, file.type)
+        .then(({ data }) => {
+          const resource_url = data.resource_url
+          const upload_url = data.upload_url
+
+          switch (process.env.NODE_ENV) {
+            case 'production':
+              var http = axios.create()
+              delete http.defaults.headers.common['Authorization']
+              http
+                .put(upload_url, file)
+                .then(({ data }) => {
+                  console.log(data)
+                })
+                .catch((e) => {
+                  console.log(e)
+                })
+              break
+
+            default:
+              localFileUpload(resource_url, file)
+                .then(({ data }) => {
+                  this.user.avatar = resource_url
+
+                  this.updateUserDetail()
+                  this.newUserAvatar = null
+                })
+                .catch((e) => {
+                  console.log(e)
+                })
+              break
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+        .finally(() => {})
     },
     updateUserDetail() {
       this.isUpdating = true
-      if (this.newUserAvatar) {
-        // const extension = this.newUserAvatar.type.split('/')[1]
-        // const filename = `${uuidv4()}.${extension}`
-        // const location = 'avatars/'
-        // const config = {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //   },
-        //   params: {
-        //     location: location,
-        //   },
-        //   onUploadProgress: function (progressEvent) {
-        //     this.uploadProgress = parseInt(
-        //       Math.round((progressEvent.loaded / progressEvent.total) * 100)
-        //     )
-        //   }.bind(this),
-        // }
 
-        // let formData = new FormData()
-        // formData.append('file', this.newUserAvatar)
+      updateUser(this.user_id, this.user)
+        .then(({ data }) => {
+          this.user = data
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+        .finally(() => (this.isUpdating = false))
 
-        // fileUpload(filename, config, formData)
-        //   .then(({ data }) => {
-        //     this.user.avatar = data
+      // Check for presence new user avatar
+      // if (!this.newUserAvatar) {
+      //   this.updateUserInfo()
 
-        //     // Calling the regular update API with new avatar url
-        //     updateUser(this.user_id, this.user)
-        //       .then(({ data }) => {
-        //         this.user = data
-        //       })
-        //       .catch((e) => {
-        //         console.log(e)
-        //       })
-        //   })
-        //   .catch((e) => {
-        //     console.log(e)
-        //   })
-        //   .finally(() => (this.isUpdating = false))
+      //   this.isUpdating = false
+      //   return
+      // }
 
-        const extension = this.newUserAvatar.type.split('/')[1]
-        const filename = `${uuidv4()}.${extension}`
-        const location = 'avatars/'
+      // this.updateUserAvatar()
+      // this.updateUserInfo()
 
-        getUploadUrl(filename, { location: location })
-          .then(({ data }) => {
-            var file = this.newUserAvatar
-            var http = axios.create()
-            console.log(file.type)
-            delete http.defaults.headers.common['Authorization']
-            http
-              .put(data, file, {
-                headers: {
-                  'Content-Type': file.type,
-                },
-                onUploadProgress: function (progressEvent) {
-                  this.uploadProgress = parseInt(
-                    Math.round(
-                      (progressEvent.loaded / progressEvent.total) * 100
-                    )
-                  )
-                }.bind(this),
-              })
-              .then((res) => {
-                this.user.avatar = location + filename
-                updateUser(this.user_id, this.user)
-                  .then(({ data }) => {
-                    this.user = data
-                  })
-                  .catch((e) => {
-                    console.log(e)
-                  })
+      // this.isUpdating = true
+      // if (this.newUserAvatar) {
+      //   const extension = this.newUserAvatar.type.split('/')[1]
+      //   const filename = `${uuidv4()}.${extension}`
+      //   const location = 'avatars/'
 
-                this.isUpdating = false
-              })
-              .catch()
-          })
-          .catch((e) => console.log(e))
-      } else {
-        updateUser(this.user_id, this.user)
-          .then(({ data }) => {
-            this.user = data
-          })
-          .catch((e) => {
-            console.log(e)
-          })
-          .finally(() => (this.isUpdating = false))
-      }
+      //   getUploadUrl(filename, { location: location })
+      //     .then(({ data }) => {
+      //       var file = this.newUserAvatar
+      //       var http = axios.create()
+      //       console.log(file.type)
+      //       delete http.defaults.headers.common['Authorization']
+      //       http
+      //         .put(data, file, {
+      //           headers: {
+      //             'Content-Type': file.type,
+      //           },
+      //           onUploadProgress: function (progressEvent) {
+      //             this.uploadProgress = parseInt(
+      //               Math.round(
+      //                 (progressEvent.loaded / progressEvent.total) * 100
+      //               )
+      //             )
+      //           }.bind(this),
+      //         })
+      //         .then((res) => {
+      //           this.user.avatar = location + filename
+      //           updateUser(this.user_id, this.user)
+      //             .then(({ data }) => {
+      //               this.user = data
+      //             })
+      //             .catch((e) => {
+      //               console.log(e)
+      //             })
+
+      //           this.isUpdating = false
+      //         })
+      //         .catch()
+      //     })
+      //     .catch((e) => console.log(e))
+      // } else {
+      //   updateUser(this.user_id, this.user)
+      //     .then(({ data }) => {
+      //       this.user = data
+      //     })
+      //     .catch((e) => {
+      //       console.log(e)
+      //     })
+      //     .finally(() => (this.isUpdating = false))
+      // }
     },
   },
   mounted() {

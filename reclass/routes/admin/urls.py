@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from .common import FileUploadView
-from .views.users import UserListView, UserDetailView, UserAvatarUpload, get_upload_url_avatar
+from .views.users import UserListView, UserDetailView, UserAvatarUpload
 from .views.subjects import SubjectListView, SubjectDetailView, subject_invite
 from .views.invites import SubjectInviteListView, SubjectInviteDetailView
 from .views.notifications import NotificationListView, NotificationDetailView
@@ -14,7 +14,6 @@ urlpatterns = [
     path('users/', UserListView.as_view()),
     path('users/<int:pk>/', UserDetailView.as_view()),
     path('users/<int:pk>/avatar/upload/', UserAvatarUpload.as_view()),
-    # path('users/<int:pk>/avatar/upload/', get_upload_url_avatar),
 
     # Subjects routes
     path('subjects/', SubjectListView.as_view()),
@@ -41,6 +40,7 @@ urlpatterns = [
     path('schedules/', ScheduleListView.as_view()),
     path('schdules/<int:pk>/', ScheduleDetailView.as_view()),
 
-    # File Uplaod
+    # File Upload - Valid for local env
     path('upload/<str:filename>/', FileUploadView.as_view())
+    # re_path(r'^upload/(?P<filename>[^/]+)$/', FileUploadView.as_view())
 ]

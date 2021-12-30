@@ -27,6 +27,7 @@ jobs:
         env:
           VUE_APP_BASE_URL: ${{ secrets.VUE_APP_BASE_URL }}
           VUE_APP_MEDIA_URL: ${{ secrets.VUE_APP_MEDIA_URL }}
+          NODE_ENV: production
         run: npm run build
 
       - name: Deploy images to AWS S3

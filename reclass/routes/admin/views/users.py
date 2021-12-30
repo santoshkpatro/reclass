@@ -1,18 +1,10 @@
-import os
-import uuid
-import mimetypes
-import time
+
 from django.db.models import Q
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from rest_framework import generics, permissions, serializers, views, status
 from rest_framework.response import Response
-from rest_framework.parsers import FileUploadParser, MultiPartParser
-from rest_framework.decorators import api_view
-from rest_framework.exceptions import APIException
+from rest_framework.parsers import FileUploadParser
 from reclass.models import User, Enrollment, Subject
 from ..permissions import IsAdminUser
-from ..helpers import file_extension, handle_file_upload
 from ..mixins import FileUploadMixin
 
 
@@ -73,52 +65,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserAvatarUpload(views.APIView, FileUploadMixin):
-    parser_classes = [MultiPartParser]
+    parser_classes = [FileUploadParser]
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
     location = 'avatars'
     supported_file_types = ['.png', '.jpg', '.jpeg']
 
     def get(self, request, pk):
-        if not 'file_type' in request.query_params:
-            raise APIException(detail='File type not found',
-                               code=status.HTTP_404_NOT_FOUND)
-        file_type = request.query_params['file_type']
-        if not self.check_file_extension(file_type):
-            raise APIException(detail='File type not supported',
-                               code=status.HTTP_400_BAD_REQUEST)
-
-        data = self.get_urls(file_type, expiration=3600)
+        data = self.get_urls(expiration=3600)
         return Response(data=data, status=status.HTTP_200_OK)
-
-    def put(self, request, pk, format=None):
-        try:
-            user = User.objects.get(id=pk)
-
-            file_obj = request.FILES['file']
-            fs = FileSystemStorage()
-            ext = os.path.splitext(file_obj.name.lower())[1]
-            file_name = 'avatars/' + uuid.uuid4().hex + ext
-            file = fs.save(file_name, file_obj)
-            user.avatar = 'http://127.0.0.1:8000' + fs.url(file)
-            user.save()
-            serializer = UserSerializer(instance=user)
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        except User.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        return Response(status=204)
-
-
-# class UserAvatar(views.APIView):
-#     parser_classes = [MultiPartParser]
-#     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
-
-#     def get(self, request, pk):
-#         pass
-
-#     # Valid for local upload only
-#     def put(self, request, pk):
-#         pass
 
 
 class UserListView(generics.ListCreateAPIView):
@@ -152,12 +106,3 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
-
-
-@api_view(['GET'])
-def get_upload_url_avatar(request, pk):
-    file_type = request.query_params['file_type']
-    ext = mimetypes.guess_extension(file_type)
-    resource_url = f'avatars/{uuid.uuid4()}{ext}'
-    upload_url = 'http://127.0.0.1:8000/media' + '/' + resource_url
-    return Response(data={'resource_url': resource_url, 'upload_url': upload_url}, status=status.HTTP_200_OK)

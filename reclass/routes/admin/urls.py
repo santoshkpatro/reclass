@@ -13,7 +13,7 @@ urlpatterns = [
     # Users routes
     path('users/', UserListView.as_view()),
     path('users/<int:pk>/', UserDetailView.as_view()),
-    path('users/<int:pk>/avatar/', UserAvatarUpload.as_view()),
+    path('users/<int:pk>/avatar/upload/', UserAvatarUpload.as_view()),
 
     # Subjects routes
     path('subjects/', SubjectListView.as_view()),
@@ -40,6 +40,7 @@ urlpatterns = [
     path('schedules/', ScheduleListView.as_view()),
     path('schdules/<int:pk>/', ScheduleDetailView.as_view()),
 
-    # File Uplaod
+    # File Upload - Valid for local env
     path('upload/<str:filename>/', FileUploadView.as_view())
+    # re_path(r'^upload/(?P<filename>[^/]+)$/', FileUploadView.as_view())
 ]

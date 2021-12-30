@@ -9,7 +9,11 @@
         aria-label="Search"
         @input="handleSearch"
       />
-      <BaseSelect :options="[20, 50, 100]" v-model="limit" @click="loadUsers" />
+      <BaseSelect
+        :options="resultsPerPage"
+        v-model="limit"
+        @click="loadUsers()"
+      />
     </div>
     <div>
       <UserAddForm @newUser="loadUsers" />
@@ -32,7 +36,6 @@
             type="checkbox"
             id="checkboxNoLabel"
             value=""
-            aria-label="..."
           />
         </th>
         <td class="d-flex flex-column">
@@ -109,6 +112,7 @@ export default {
       offset: 0,
       cancelToken: undefined,
       search: null,
+      resultsPerPage: [20, 50, 100],
     }
   },
   methods: {
@@ -148,7 +152,6 @@ export default {
       }
       this.cancelToken = axios.CancelToken.source()
 
-      this.limit = 20
       this.offset = 0
       this.search = e.target.value
       this.loadUsers({ cancelToken: this.cancelToken.token })
@@ -163,7 +166,7 @@ export default {
     },
   },
   mounted() {
-    this.loadUsers({ limit: this.limit, offset: this.offset })
+    this.loadUsers()
   },
 }
 </script>

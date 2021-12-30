@@ -160,7 +160,10 @@ export default {
               http
                 .put(upload_url, file)
                 .then(({ data }) => {
-                  console.log(data)
+                  this.user.avatar = resource_url
+
+                  this.updateUserDetail()
+                  this.newUserAvatar = null
                 })
                 .catch((e) => {
                   console.log(e)

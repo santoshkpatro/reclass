@@ -9,9 +9,11 @@ from rest_framework import generics, permissions, serializers, views, status
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import APIException
 from reclass.models import User, Enrollment, Subject
 from ..permissions import IsAdminUser
 from ..helpers import file_extension, handle_file_upload
+from ..mixins import FileUploadMixin
 
 
 class SubjectSerializer(serializers.ModelSerializer):
@@ -70,9 +72,23 @@ class UserSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class UserAvatarUpload(views.APIView):
+class UserAvatarUpload(views.APIView, FileUploadMixin):
     parser_classes = [MultiPartParser]
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
+    location = 'avatars'
+    supported_file_types = ['.png', '.jpg', '.jpeg']
+
+    def get(self, request, pk):
+        if not 'file_type' in request.query_params:
+            raise APIException(detail='File type not found',
+                               code=status.HTTP_404_NOT_FOUND)
+        file_type = request.query_params['file_type']
+        if not self.check_file_extension(file_type):
+            raise APIException(detail='File type not supported',
+                               code=status.HTTP_400_BAD_REQUEST)
+
+        data = self.get_urls(file_type, expiration=3600)
+        return Response(data=data, status=status.HTTP_200_OK)
 
     def put(self, request, pk, format=None):
         try:

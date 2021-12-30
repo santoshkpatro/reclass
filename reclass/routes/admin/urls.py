@@ -13,8 +13,8 @@ urlpatterns = [
     # Users routes
     path('users/', UserListView.as_view()),
     path('users/<int:pk>/', UserDetailView.as_view()),
-    path('users/<int:pk>/avatar/', UserAvatarUpload.as_view()),
-    path('users/<int:pk>/avatar/upload/', get_upload_url_avatar),
+    path('users/<int:pk>/avatar/upload/', UserAvatarUpload.as_view()),
+    # path('users/<int:pk>/avatar/upload/', get_upload_url_avatar),
 
     # Subjects routes
     path('subjects/', SubjectListView.as_view()),

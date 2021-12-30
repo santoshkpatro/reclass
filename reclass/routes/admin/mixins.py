@@ -4,7 +4,8 @@ import mimetypes
 import boto3
 import logging
 from botocore.exceptions import ClientError
-from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.exceptions import APIException
 from django.conf import settings
 
 s3_client = boto3.client('s3',
@@ -14,7 +15,7 @@ s3_client = boto3.client('s3',
                          )
 
 
-class FileUploadView(APIView):
+class FileUploadMixin:
     location = ''
     supported_file_types = []
 
@@ -33,12 +34,13 @@ class FileUploadView(APIView):
         else:
             return False
 
-    def get_urls(self, file_type):
-        if os.environ.get('DJANGO_SETTINGS_MODULE') == 'production':
+    def get_urls(self, file_type, expiration=3600):
+
+        if os.environ.get('DJANGO_SETTINGS_MODULE') == 'reclass.settings.production':
             try:
                 bucket_name = settings.AWS_S3_BUCKET_NAME
-                object_name = self.location + self.get_filename + self.get_file_extension
-                expiration = 3600
+                object_name = self.location + '/' + \
+                    self.get_filename() + self.get_file_extension(file_type)
 
                 url = s3_client.generate_presigned_url(
                     ClientMethod='put_object',
@@ -47,12 +49,20 @@ class FileUploadView(APIView):
                         'Key': object_name
                     },
                     ExpiresIn=expiration)
-
-                return url
+                return {
+                    'resource_url': object_name,
+                    'upload_url': url
+                }
 
             except ClientError as e:
                 logging.error(e)
                 return None
         else:
-            upload_url = 'https://127.0.0.1:8000/media' + self.location + self.file
-            return upload_url
+            resource_url = self.location + '/' + \
+                self.get_filename() + self.get_file_extension(file_type)
+            upload_url = 'https://127.0.0.1:8000/media/' + resource_url
+
+            return {
+                'resource_url': resource_url,
+                'upload_url': upload_url
+            }

@@ -10,6 +10,7 @@ from .schedule import Schedule
 from .project import Project
 from .form import Form
 from .response import Response
+from .item import Item
 
 __all__ = [
     'User',
@@ -23,5 +24,6 @@ __all__ = [
     'Schedule',
     'Project',
     'Form',
-    'Response'
+    'Response',
+    'Item',
 ]

@@ -183,6 +183,7 @@ export default {
           .then(({ data }) => {
             var file = this.newUserAvatar
             var http = axios.create()
+            console.log(file.type)
             delete http.defaults.headers.common['Authorization']
             http
               .put(data, file, {

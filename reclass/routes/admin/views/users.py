@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from rest_framework import generics, permissions, serializers, views, status
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser, MultiPartParser
+from rest_framework.decorators import api_view
 from reclass.models import User, Enrollment, Subject
 from ..permissions import IsAdminUser
 from ..helpers import file_extension, handle_file_upload
@@ -135,3 +136,12 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
+
+
+@api_view(['GET'])
+def get_upload_url_avatar(request, pk):
+    file_type = request.query_params['file_type']
+    ext = mimetypes.guess_extension(file_type)
+    resource_url = f'avatars/{uuid.uuid4()}{ext}'
+    upload_url = 'http://127.0.0.1:8000/media' + '/' + resource_url
+    return Response(data={'resource_url': resource_url, 'upload_url': upload_url}, status=status.HTTP_200_OK)

@@ -25,7 +25,7 @@ class Notification(models.Model):
     )
     title = models.CharField(max_length=300)
     description = models.TextField(blank=True, null=True)
-    attachment = models.URLField(blank=True, null=True)
+    attachment = models.CharField(blank=True, null=True, max_length=200)
     is_published = models.BooleanField(default=False)
     tags = ArrayField(models.CharField(max_length=15), blank=True, null=True)
 

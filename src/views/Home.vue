@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-2">
+  <div class="container mt-2 text-white">
     <h1>Welcome to Reclass</h1>
     <p>Classroom engagement platform</p>
   </div>

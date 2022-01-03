@@ -4,25 +4,25 @@
       <li
         class="nav-item"
         :class="{
-          'border-end border-3 border-dark': $route.name === 'AdminOverview',
+          active: $route.name === 'AdminOverview',
         }"
       >
         <router-link
-          class="nav-link"
+          class="nav-link text-white"
           aria-current="page"
           :to="{ name: 'AdminOverview' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="feather feather-home"
+            class="feather feather-home me-1"
           >
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -33,21 +33,21 @@
       <li
         class="nav-item"
         :class="{
-          'border-end border-3 border-dark': $route.name === 'AdminUsers',
+          active: $route.name === 'AdminUsers',
         }"
       >
-        <router-link class="nav-link" :to="{ name: 'AdminUsers' }">
+        <router-link class="nav-link text-white" :to="{ name: 'AdminUsers' }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="feather feather-file"
+            class="feather feather-file me-1"
           >
             <path
               d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
@@ -58,18 +58,21 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" :to="{ name: 'AdminSubjects' }">
+        <router-link
+          class="nav-link text-white"
+          :to="{ name: 'AdminSubjects' }"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="feather feather-shopping-cart"
+            class="feather feather-shopping-cart me-1"
           >
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
@@ -80,8 +83,8 @@
           <span class="ml-2">Subjects</span>
         </router-link>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
+      <!-- <li class="nav-item">
+        <a class="nav-link text-white" href="#">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -103,7 +106,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link text-white" href="#">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -124,7 +127,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link text-white" href="#">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -143,7 +146,7 @@
           </svg>
           <span class="ml-2">Integrations</span>
         </a>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
@@ -154,9 +157,8 @@ a {
   color: black;
 }
 
-a:hover,
-:focus {
-  text-decoration: underline;
-  color: black;
+.active {
+  background-color: #2a2a2a;
+  border-radius: 8px;
 }
 </style>

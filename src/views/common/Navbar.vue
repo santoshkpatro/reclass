@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <router-link class="navbar-brand" :to="{ name: 'Home' }"
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <router-link class="navbar-brand text-white" :to="{ name: 'Home' }"
         >Reclass</router-link
       >
       <button
@@ -18,13 +18,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link active" aria-current="page" :to="url">
+            <router-link
+              class="nav-link active text-white"
+              aria-current="page"
+              :to="url"
+            >
               Dashboard
             </router-link>
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle text-white"
               href="#"
               id="navbarDropdown"
               role="button"
@@ -43,13 +47,13 @@
         </ul>
         <ul class="navbar-nav">
           <router-link
-            class="btn btn-primary"
+            class="btn btn-primary btn-sm"
             v-if="!loggedIn"
             :to="{ name: 'Login' }"
             >Login</router-link
           >
           <button
-            class="btn btn-primary"
+            class="btn btn-primary btn-sm"
             v-if="loggedIn"
             @click="$store.dispatch('logout')"
           >
@@ -75,4 +79,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.navbar {
+  border-bottom: 1px solid;
+  border-color: #2a2a2a;
+}
+</style>

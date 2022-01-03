@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card bg-dark">
     <div class="card-body">
       <h5>{{ title }}</h5>
       <h3>{{ count }}</h3>
@@ -20,3 +20,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.card {
+  border-radius: 8px;
+}
+</style>

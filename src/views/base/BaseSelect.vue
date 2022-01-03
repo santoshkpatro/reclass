@@ -1,7 +1,7 @@
 <template>
   <label class="form-label fw-bolder" v-if="label">{{ label }}</label>
   <select
-    class="form-select"
+    class="form-select bg-transparent"
     :value="modelValue"
     v-bind="{
       ...$attrs,
@@ -10,8 +10,9 @@
       },
     }"
   >
-    <option selected>Open this select menu</option>
+    <option class="bg-dark text-white" selected>Open this select menu</option>
     <option
+      class="bg-dark text-white"
       v-for="option in options"
       :key="option"
       :value="option"

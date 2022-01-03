@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn btn-primary"
+    class="btn btn-primary btn-sm"
     type="button"
     data-bs-toggle="offcanvas"
     data-bs-target="#offcanvasRight"
@@ -22,7 +22,7 @@
   </button>
 
   <div
-    class="offcanvas offcanvas-end"
+    class="offcanvas offcanvas-end bg-dark"
     tabindex="-1"
     id="offcanvasRight"
     aria-labelledby="offcanvasRightLabel"

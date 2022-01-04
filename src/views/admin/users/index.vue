@@ -9,17 +9,17 @@
         aria-label="Search"
         @input="handleSearch"
       />
-      <BaseSelect
+      <!-- <BaseSelect
         :options="resultsPerPage"
         v-model="limit"
         @click="loadUsers()"
-      />
+      /> -->
     </div>
     <div>
       <UserAddForm @newUser="loadUsers" />
     </div>
   </div>
-  <table class="table text-white">
+  <table class="table table-borderless table-sm text-white">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -93,6 +93,7 @@
             fill="currentColor"
             class="bi bi-trash"
             viewBox="0 0 16 16"
+            @click="handleDelete(user.id)"
           >
             <path
               d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -129,7 +130,7 @@ import UserAddForm from './_add.vue'
 import axios from 'axios'
 import _ from 'lodash'
 import dayjs from 'dayjs'
-import { getUsers, updateUser } from '@/api/admin'
+import { getUsers, updateUser, deleteUser } from '@/api/admin'
 import BaseSelect from '../../base/BaseSelect.vue'
 
 getUsers
@@ -201,6 +202,13 @@ export default {
     handlePrevious() {
       this.offset = this.offset - this.limit
       this.loadUsers()
+    },
+    handleDelete(id) {
+      deleteUser(id)
+        .then(() => {
+          this.list.users = this.list.users.filter((user) => user.id !== id)
+        })
+        .catch((e) => console.log(e))
     },
   },
   mounted() {

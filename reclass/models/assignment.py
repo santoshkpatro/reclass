@@ -17,7 +17,7 @@ class Assignment(models.Model):
     )
     title = models.CharField(max_length=300)
     description = models.TextField(blank=True, null=True)
-    attachment = models.URLField(blank=True, null=True)
+    attachment = models.CharField(max_length=200, blank=True, null=True)
     submission_due = models.DateTimeField(blank=True, null=True)
     allow_submission_after_due = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

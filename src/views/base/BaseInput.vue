@@ -4,7 +4,7 @@
   }}</label>
   <input
     :placeholder="label"
-    class="form-control"
+    class="form-control bg-transparent text-white"
     :value="modelValue"
     v-bind="$attrs"
     @input="$emit('update:modelValue', $event.target.value)"
@@ -26,3 +26,9 @@ export default {
   },
 }
 </script>
+
+<style>
+input {
+  border: none;
+}
+</style>

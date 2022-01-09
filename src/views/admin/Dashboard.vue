@@ -1,10 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <nav
-        id="sidebar"
-        class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-      >
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
         <!-- sidebar content goes in here -->
         <Sidebar />
       </nav>
@@ -27,6 +24,9 @@ export default {
 </script>
 
 <style scoped>
+nav {
+  color: #181818;
+}
 .sidebar {
   position: relative;
   top: 0;
@@ -37,6 +37,8 @@ export default {
   /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1); */
   z-index: 99;
   height: 100vh;
+  border-right: 1px solid;
+  border-color: #2a2a2a;
 }
 
 @media (max-width: 767.98px) {

@@ -13,6 +13,7 @@ export const getUsers = (query = {}) =>
   })
 export const getUser = (id) => http.get(`/users/${id}/`)
 export const updateUser = (id, data) => http.patch(`/users/${id}/`, data)
+export const deleteUser = (id) => http.delete(`/users/${id}`)
 export const getAvatarUploadUrl = (id, file_type) =>
   http.get(`/users/${id}/avatar/upload/`, {
     params: {

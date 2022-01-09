@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn btn-primary"
+    class="btn btn-outline-success btn-sm"
     type="button"
     data-bs-toggle="offcanvas"
     data-bs-target="#offcanvasRight"
@@ -22,7 +22,7 @@
   </button>
 
   <div
-    class="offcanvas offcanvas-end"
+    class="offcanvas offcanvas-end bg-dark"
     tabindex="-1"
     id="offcanvasRight"
     aria-labelledby="offcanvasRightLabel"
@@ -80,7 +80,7 @@
           v-model="user.is_instructor"
         />
         <div class="d-grid gap-2 my-3">
-          <button class="btn btn-primary">
+          <button class="btn btn-success btn-sm">
             <span
               class="spinner-border spinner-border-sm me-2"
               role="status"

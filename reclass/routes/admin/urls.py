@@ -37,8 +37,8 @@ urlpatterns = [
     path('submissions/<int:pk>/', SubmissionDetailView.as_view()),
 
     # Schedules
-    path('schedules/', ScheduleListView.as_view()),
-    path('schdules/<int:pk>/', ScheduleDetailView.as_view()),
+    # path('schedules/', ScheduleListView.as_view()),
+    # path('schdules/<int:pk>/', ScheduleDetailView.as_view()),
 
     # File Upload - Valid for local env
     path('upload/<str:filename>/', FileUploadView.as_view())

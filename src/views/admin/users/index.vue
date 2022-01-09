@@ -3,71 +3,31 @@
     <div class="d-flex align-items-center">
       <h3>Users</h3>
       <input
-        class="form-control ms-2"
+        class="form-control bg-transparent mx-2 text-white"
         type="search"
         placeholder="Search user"
         aria-label="Search"
         @input="handleSearch"
       />
-      <BaseSelect
+      <!-- <BaseSelect
         :options="resultsPerPage"
         v-model="limit"
         @click="loadUsers()"
-      />
+      /> -->
     </div>
     <div>
       <UserAddForm @newUser="loadUsers" />
     </div>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Details</th>
-        <th scope="col">Active?</th>
-        <th scope="col">Created on</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="user in list.users">
-        <th scope="row">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="checkboxNoLabel"
-            value=""
-          />
-        </th>
-        <td class="d-flex flex-column">
-          <span>
-            <router-link
-              :to="{ name: 'AdminUserDetail', params: { user_id: user.id } }"
-            >
-              {{ user.first_name }} {{ user.last_name }}
-            </router-link>
-          </span>
-          <span class="fw-light">
-            {{ user.email }}
-          </span>
-        </td>
-        <td>
-          <div class="form-check form-switch">
-            <input
-              @click="updateUserStatus(user)"
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="switch1"
-              data-on="Yes"
-              data-off="No"
-              :checked="user.is_active"
-            />
-          </div>
-        </td>
-        <td>{{ formatDate(user.created_at) }}</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <!-- Users Table -->
+  <List
+    v-if="list.users"
+    :users="list.users"
+    @onUpdate="handleUpdate"
+    @onDelete="handleDelete"
+  />
+
   <div class="d-flex justify-content-between">
     <button
       class="btn btn-sm btn-dark"
@@ -88,18 +48,17 @@
 
 <script>
 import UserAddForm from './_add.vue'
+import List from './_list.vue'
 import axios from 'axios'
 import _ from 'lodash'
-import dayjs from 'dayjs'
-import { getUsers, updateUser } from '@/api/admin'
-import BaseSelect from '../../base/BaseSelect.vue'
+import { getUsers, updateUser, deleteUser } from '@/api/admin'
 
 getUsers
 export default {
   name: 'AdminUsers',
   components: {
     UserAddForm,
-    BaseSelect,
+    List,
   },
   data() {
     return {
@@ -116,12 +75,6 @@ export default {
     }
   },
   methods: {
-    formatDate(date) {
-      return new dayjs(date).format('DD-MM-YYYY')
-    },
-    resource_url(url) {
-      return process.env.VUE_APP_MEDIA_URL + '/' + url
-    },
     loadUsers(query = {}) {
       getUsers({
         ...query,
@@ -164,6 +117,24 @@ export default {
       this.offset = this.offset - this.limit
       this.loadUsers()
     },
+    handleDelete(id) {
+      deleteUser(id)
+        .then(() => {
+          this.list.users = this.list.users.filter((user) => user.id !== id)
+        })
+        .catch((e) => console.log(e))
+    },
+    handleUpdate(userId, newData) {
+      console.log(userId)
+      console.log(newData)
+      updateUser(userId, newData)
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
   },
   mounted() {
     this.loadUsers()
@@ -171,13 +142,4 @@ export default {
 }
 </script>
 
-<style scoped>
-a {
-  text-decoration: none;
-  color: black;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-</style>
+<style scoped></style>

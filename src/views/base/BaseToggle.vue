@@ -5,7 +5,7 @@
       role="switch"
       :checked="modelValue"
       @change="$emit('update:modelValue', $event.target.checked)"
-      class="form-check-input"
+      class="form-check-input bg-success"
     />
     <label class="form-check-label" v-if="label">{{ label }}</label>
   </div>
@@ -25,3 +25,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+/* .form-check-input {
+  background-color: red;
+} */
+</style>

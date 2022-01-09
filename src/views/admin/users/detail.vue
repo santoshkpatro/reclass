@@ -40,7 +40,7 @@
           <BaseCheckbox label="Instructor" v-model="user.is_instructor" />
           <div class="d-grid gap-2 mt-3">
             <button
-              class="btn btn-primary"
+              class="btn btn-success btn-sm"
               :disabled="isUpdating"
               type="submit"
             >

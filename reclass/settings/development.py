@@ -17,11 +17,11 @@ INSTALLED_APPS.append('django.contrib.staticfiles')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'reclass_development',
-        'USER': 'reclass',
-        'PASSWORD': 'reclass',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('PG_NAME', 'reclass_development'),
+        'USER': os.environ.get('PG_USER', 'reclass'),
+        'PASSWORD': os.environ.get('PG_PASSWORD', 'reclass'),
+        'HOST': os.environ.get('PG_HOST', 'localhost'),
+        'PORT': os.environ.get('PG_PORT', '5432'),
     }
 }
 
@@ -74,3 +74,10 @@ AWS_REGION = os.environ.get('AWS_REGION', 'ap-south-1')
 AWS_S3_BUCKET_NAME = os.environ.get('AWS_S3_BUCKET_NAME')
 AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')
+
+# Channel Layers
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}

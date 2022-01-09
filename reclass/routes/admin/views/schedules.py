@@ -1,7 +1,7 @@
-from django.contrib.postgres import fields
 from rest_framework import generics, status, permissions, serializers
 from rest_framework.exceptions import APIException
-from reclass.models import Schedule, Subject
+from reclass.models.schedule import Schedule
+from reclass.models.subject import Subject
 from reclass.models.user import User
 from ..permissions import IsAdminUser
 

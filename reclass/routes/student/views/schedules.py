@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework import generics, permissions, serializers, status
-from reclass.models import Schedule, Subject
+from reclass.models.schedule import Schedule
 from ..mixins import SubjectEnrolledMixin
 
 

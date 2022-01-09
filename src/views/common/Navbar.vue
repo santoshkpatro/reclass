@@ -47,13 +47,13 @@
         </ul>
         <ul class="navbar-nav">
           <router-link
-            class="btn btn-primary btn-sm"
+            class="btn btn-dark btn-sm"
             v-if="!loggedIn"
             :to="{ name: 'Login' }"
             >Login</router-link
           >
           <button
-            class="btn btn-primary btn-sm"
+            class="btn btn-dark btn-sm"
             v-if="loggedIn"
             @click="$store.dispatch('logout')"
           >

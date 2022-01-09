@@ -6,11 +6,11 @@ from .assignment import Assignment
 from .submission import Submission
 from .message import Message
 from .invite import SubjectInvite
-from .schedule import Schedule
 from .project import Project
 from .form import Form
 from .response import Response
 from .item import Item
+from .event import Event
 
 __all__ = [
     'User',
@@ -21,9 +21,9 @@ __all__ = [
     'Submission',
     'Message',
     'SubjectInvite',
-    'Schedule',
     'Project',
     'Form',
     'Response',
     'Item',
+    'Event',
 ]

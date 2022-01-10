@@ -1,19 +1,15 @@
 <template>
   <div>
-    <Navbar />
     <router-view />
   </div>
 </template>
 
 <script>
-import Navbar from '@/views/common/Navbar.vue'
 import axios from 'axios'
 
 export default {
   name: 'App',
-  components: {
-    Navbar,
-  },
+  components: {},
   created() {
     const userString = localStorage.getItem('profile')
     if (userString) {

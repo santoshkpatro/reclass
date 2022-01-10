@@ -4,8 +4,8 @@ import router from './router'
 import store from './store'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.css'
 
 const requireComponent = require.context(

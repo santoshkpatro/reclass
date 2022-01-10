@@ -1,39 +1,30 @@
 <template>
-  <div class="container mt-3">
-    <h1>Login</h1>
-    <form class="col-4" @submit.prevent="handleLogin">
-      <BaseInput
-        label="Email"
-        v-model="email"
-        type="text"
-        name="email"
-        required="true"
-      />
-      <BaseInput
-        label="Password"
-        v-model="password"
-        type="password"
-        name="password"
-        required="true"
-      />
-      <BaseCheckbox label="Remember me" v-model="remember_me" />
-      <router-link :to="{ name: 'PasswordReset' }">Forgot Password</router-link>
-      <div class="d-grid gap-2">
+  <div class="flex h-screen">
+    <div class="m-auto">
+      <p class="text-center text-2xl">Login</p>
+      <form @submit.prevent="handleLogin">
+        <BaseInput
+          label="Email"
+          v-model="email"
+          type="text"
+          name="email"
+          required="true"
+        />
+        <BaseInput
+          label="Password"
+          v-model="password"
+          type="password"
+          name="password"
+          required="true"
+        />
         <button
-          class="btn btn-primary my-3"
+          class="w-full bg-indigo-500 py-2 rounded text-white hover:bg-indigo-600"
           type="submit"
-          :disabled="isLoading"
         >
-          <span
-            v-if="isLoading"
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          <span>Login</span>
+          Login
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 

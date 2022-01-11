@@ -1,9 +1,6 @@
 <template>
   <Navbar />
-  <div class="container mt-2">
-    <h1>Welcome to Reclass</h1>
-    <p>Classroom engagement platform</p>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>

@@ -20,8 +20,9 @@ sudo -u postgres createuser reclass
 sudo -u postgres psql
 
 # setup password for the user reclass
+#when prompted enter `12345` as password
 \password reclass
-# when prompted enter `12345` as password
+
 
 # Let's create development database
 create database reclass_development;

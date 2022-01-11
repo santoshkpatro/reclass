@@ -1,43 +1,39 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/home/Home.vue'
+import Auth from '../views/auth/Auth.vue'
+import AdminDashboard from '../views/admin/Dashboard.vue'
+import StudentDashboard from '../views/student/Dashboard.vue'
+import homeRoutes from './home.js'
+import authRoutes from './auth.js'
 import adminRoutes from './admin.js'
+import studentRoutes from './student.js'
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
-  },
-  {
-    path: '/auth/login',
-    name: 'Login',
-    component: () => import('../views/auth/Login.vue'),
-  },
-  {
-    path: '/auth/password_reset',
-    name: 'PasswordReset',
-    component: () => import('../views/auth/PasswordReset.vue'),
-  },
-  {
-    path: '/auth/password_reset/confirm/:token',
-    name: 'PasswordResetConfirm',
-    props: true,
-    component: () => import('../views/auth/PasswordResetConfirm.vue'),
+    path: '/auth',
+    name: 'Auth',
+    component: Auth,
+    children: authRoutes,
   },
   {
     path: '/admin',
     name: 'AdminDashboard',
-    component: () => import('../views/admin/Dashboard.vue'),
-    // components: {
-    //   admin: () => import('../views/admin/Dashboard.vue'),
-    // },
+    component: AdminDashboard,
     meta: { requiresAuth: true, requiresAdmin: true },
     children: adminRoutes,
+  },
+  {
+    path: '/student',
+    name: 'StudentDashboard',
+    component: StudentDashboard,
+    meta: { requiresAuth: true },
+    children: studentRoutes,
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    children: homeRoutes,
   },
   {
     path: '/unauthorized',

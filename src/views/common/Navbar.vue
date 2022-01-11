@@ -49,6 +49,7 @@
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
           <button
+            v-if="loggedIn"
             type="button"
             class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
           >
@@ -57,7 +58,7 @@
           </button>
 
           <!-- Profile dropdown -->
-          <Menu as="div" class="ml-3 relative">
+          <Menu as="div" class="ml-3 relative" v-if="loggedIn">
             <div>
               <MenuButton
                 class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
@@ -102,13 +103,13 @@
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <router-link
+                    :to="{ name: 'Logout' }"
                     :class="[
                       active ? 'bg-indigo-200' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Sign out</a
+                    >Sign out</router-link
                   >
                 </MenuItem>
               </MenuItems>
@@ -140,6 +141,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   Disclosure,
   DisclosureButton,
@@ -155,7 +157,7 @@ const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'About', href: '/about', current: false },
 ]
 
 export default {
@@ -170,6 +172,9 @@ export default {
     BellIcon,
     MenuIcon,
     XIcon,
+  },
+  computed: {
+    ...mapGetters(['loggedIn']),
   },
   data() {
     return {

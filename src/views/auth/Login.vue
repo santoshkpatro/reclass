@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <div class="flex h-screen">
     <div class="m-auto border px-7 py-7 rounded shadow-lg">
       <p class="text-center text-2xl">Login</p>
@@ -30,14 +29,11 @@
 </template>
 
 <script>
-import Navbar from '@/views/common/Navbar.vue'
 import { login } from '@/api/index.js'
 
 export default {
   name: 'Login',
-  components: {
-    Navbar,
-  },
+  components: {},
   data() {
     return {
       isLoading: false,

@@ -1,29 +1,21 @@
 from django.db import models
-from .user import User
-from .subject import Subject
+from reclass.models.base import BaseModel
+from reclass.models.user import User
+from reclass.models.group import Group
 
 
-class Enrollment(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='enrolled'
-    )
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.CASCADE,
-        related_name='enrollments'
-    )
-
-    enrolled_on = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+"""
+This model is responsible for user enrollment
+and role in a particular group
+"""
+class Enrollment(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_enrollments')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_enrollments')
+    is_active = models.BooleanField(default=True, db_index=True)
 
     class Meta:
         db_table = 'enrollments'
-        unique_together = ['user', 'subject']
+        unique_together = ['user', 'group']
 
     def __str__(self) -> str:
-        return self.user.email + ' is enrolled in subject ' + self.subject.title
+        return str(self.id)

@@ -1,39 +1,34 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
-from .subject import Subject
-from .user import User
+from django.contrib.postgres import fields
+from reclass.models.base import BaseModel
+from reclass.models.group import Group
+from reclass.models.user import User
 
 
-class PublishedNotification(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_published=True)
-
-
-class Notification(models.Model):
-    notifier = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='notificated'
-    )
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='notifications',
-        blank=True
+"""
+This model is responsible for managing
+notifications
+"""
+class Notification(BaseModel):
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        related_name='user_notifications'
     )
     title = models.CharField(max_length=300)
-    description = models.TextField(blank=True, null=True)
-    attachment = models.CharField(blank=True, null=True, max_length=200)
-    is_published = models.BooleanField(default=False)
-    tags = ArrayField(models.CharField(max_length=15), blank=True, null=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    objects = models.Manager()
-    published_objects = PublishedNotification()
+    description = models.TextField()
+    group = models.ForeignKey(
+        Group, 
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True, 
+        related_name='group_notifications',
+        db_index=True
+    )
+    attachment = models.CharField(max_length=200, blank=True, null=True)
+    tags = fields.ArrayField(models.CharField(max_length=20), blank=True, null=True)
+    is_active = models.BooleanField(default=True, db_index=True)
 
     class Meta:
         db_table = 'notifications'

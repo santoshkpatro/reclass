@@ -1,29 +1,30 @@
 from django.db import models
-from .subject import Subject
-from .user import User
+from django.contrib.postgres import fields
+from reclass.models.base import BaseModel
+from reclass.models.group import Group
+from reclass.models.user import User
 
 
-class Assignment(models.Model):
+class Assignment(BaseModel):
     user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='assignment_created'
+        related_name='user_assignments'
     )
-    subject = models.ForeignKey(
-        Subject,
+    group = models.ForeignKey(
+        Group,
         on_delete=models.CASCADE,
-        related_name='assignments'
+        related_name='group_assignments',
+        db_index=True
     )
     title = models.CharField(max_length=300)
     description = models.TextField(blank=True, null=True)
     attachment = models.CharField(max_length=200, blank=True, null=True)
     submission_due = models.DateTimeField(blank=True, null=True)
-    allow_submission_after_due = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    allow_submission_after_due = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, db_index=True)
+    tags = fields.ArrayField(models.CharField(max_length=20), blank=True, null=True)
 
     class Meta:
         db_table = 'assignments'

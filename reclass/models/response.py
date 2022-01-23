@@ -16,7 +16,7 @@ class Response(BaseModel):
         related_name='user_responses'
     )
     form_data = models.JSONField(blank=True, null=True)
-    upload_data = models.JSONField(blank=True, null=True)
+    form_files = models.JSONField(blank=True, null=True)
     is_spam = models.BooleanField(default=False)
     remark = models.TextField(blank=True, null=True)
 

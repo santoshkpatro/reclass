@@ -1,4 +1,6 @@
+import uuid
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from reclass.models.base import BaseModel
 
@@ -49,10 +51,11 @@ class User(AbstractBaseUser, BaseModel):
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, blank=True, null=True)
+    avatar = models.CharField(max_length=200, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     password_reset_required = models.BooleanField(default=False)
-    password_reset_token = models.CharField(max_length=15, blank=True, null=True)
+    password_reset_token = models.CharField(max_length=35, blank=True, null=True, unique=True)
     password_reset_expiry = models.DateTimeField(blank=True, null=True)
     last_login_ip = models.GenericIPAddressField(blank=True, null=True)
 

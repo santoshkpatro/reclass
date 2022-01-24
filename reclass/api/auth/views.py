@@ -1,7 +1,7 @@
 import uuid
 from django.contrib.auth import authenticate
 from django.utils import timezone
-from rest_framework import status, generics
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
@@ -19,6 +19,9 @@ class LoginView(APIView):
 
             if user.password_reset_required:
                 return Response(data={'detail': 'Please reset your password to continue'}, status=status.HTTP_307_TEMPORARY_REDIRECT)
+            
+            user.last_login_ip = request.META['REMOTE_ADDR']
+            user.save()
 
             return Response(data={
                 'access_token': str(AccessToken.for_user(user)),

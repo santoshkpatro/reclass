@@ -7,7 +7,7 @@ be inherited by other models
 """
 class BaseModel(models.Model):
     # We are using uuid instead of auto increment serial key
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     """
     Timestamp is compulsory in every table.

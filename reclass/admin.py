@@ -5,7 +5,20 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
+from reclass.models.group import Group as UserGroup
 from reclass.models.user import User
+from reclass.models.enrollment import Enrollment
+from reclass.models.assignment import Assignment
+from reclass.models.submission import Submission
+from reclass.models.event import Event
+from reclass.models.notification import Notification
+from reclass.models.form import Form
+from reclass.models.response import Response
+
+
+class EnrollmentInline(admin.StackedInline):
+    model = Enrollment
+    extra = 1
 
 
 class UserCreationForm(forms.ModelForm):
@@ -82,6 +95,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
+    inlines = [EnrollmentInline]
 
 
 # Now register the new UserAdmin...
@@ -89,3 +103,13 @@ admin.site.register(User, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
+
+@admin.register(UserGroup)
+class GroupInline(admin.ModelAdmin):
+    list_display = ['owner', 'name', 'code', 'is_active']
+
+
+@admin.register(Notification)
+class NotificationInline(admin.ModelAdmin):
+    list_display = ['user', 'title', 'group', 'is_active']
+

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from reclass.models.enrollment import Enrollment
 from reclass.models.group import Group
 from reclass.models.user import User
 
@@ -41,4 +42,27 @@ class GroupUpdateSerializer(serializers.ModelSerializer):
             'name',
             'description',
             'group_type'
+        ]
+
+
+class GroupEnrolledUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'email',
+            'avatar',
+            'first_name',
+            'last_name'
+        ]
+
+
+class GroupEnrollmentSerializer(serializers.ModelSerializer):
+    user = GroupEnrolledUserSerializer(read_only=True)
+
+    class Meta:
+        model = Enrollment
+        fields = [
+            'id',
+            'is_active',
+            'user',
         ]

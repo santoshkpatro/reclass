@@ -18,3 +18,15 @@ class GroupEnrolledMixin:
             return group
         except Group.DoesNotExist:
             raise GroupNotFoundException
+
+
+class GroupMixin:
+    def get_group(self):
+        group_id = self.request.query_params.get('group_id', None)
+        if group_id is None:
+            raise GroupNotFoundException
+        try:
+            group = Group.active_objects.get(pk=group_id)
+            return group
+        except Group.DoesNotExist:
+            raise GroupNotFoundException

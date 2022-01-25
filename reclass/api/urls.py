@@ -1,7 +1,6 @@
 from django.urls import path, include
 from reclass.api.auth.views import LoginView, PasswordResetView
-from reclass.api.groups.views import GroupListView, GroupDetailView, GroupUpdateView
-
+from reclass.api.groups.views import GroupListView, GroupDetailView, GroupUpdateView, GroupEnrollmentsListView, GroupEnrollmentsCreateView
 
 
 urlpatterns = [
@@ -13,5 +12,6 @@ urlpatterns = [
     path('groups/', GroupListView.as_view()),
     path('groups/<uuid:pk>/', GroupDetailView.as_view()),
     path('groups/<uuid:pk>/update/', GroupUpdateView.as_view()),
-    # path('groups/<uuid:pk>/groups/enrollments/')
+    path('groups/<uuid:pk>/enrollments/', GroupEnrollmentsListView.as_view()),
+    path('groups/<uuid:pk>/enrollments/create/', GroupEnrollmentsCreateView.as_view()),
 ]

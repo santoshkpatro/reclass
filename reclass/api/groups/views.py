@@ -6,11 +6,20 @@ from reclass.models.group import Group
 from reclass.models.enrollment import Enrollment
 from reclass.api.groups.serializers import GroupListSerializers, GroupDetailSerializer, GroupUpdateSerializer, GroupEnrollmentSerializer
 from reclass.api.permissions import IsEnrolledOrOwner, IsOwner
-from reclass.api.exceptions import GroupNotFoundException, UserNotFoundException
+from reclass.api.exceptions import GroupNotFoundException, UserNotFoundException, EnrollmentNotFoundException, AuthorizationException
 from reclass.models.user import User
 
 
 class GroupListView(generics.ListAPIView):
+    serializer_class = GroupListSerializers
+    queryset = Group.active_objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user)
+
+
+class GroupEnrolledListView(generics.ListAPIView):
     serializer_class = GroupListSerializers
     queryset = Group.active_objects.all()
     permission_classes = [permissions.IsAuthenticated]
@@ -82,3 +91,58 @@ class GroupEnrollmentsCreateView(APIView):
         serializer = GroupEnrollmentSerializer(enrollment)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
+
+class GroupEnrollmentsUpdateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_group(self, pk):
+        try:
+            group = Group.objects.get(pk=pk, owner=self.request.user)
+            return group
+        except Group.DoesNotExist:
+            raise GroupNotFoundException
+
+    def get_enrollment(self, enrollment_id):
+        try:
+            enrollment = Enrollment.objects.get(pk=enrollment_id)
+            return enrollment
+        except Enrollment.DoesNotExist:
+            raise EnrollmentNotFoundException
+
+    def put(self, request, pk, enrollment_id):
+        group = self.get_group(pk)
+        enrollment = self.get_enrollment(enrollment_id)
+        if not enrollment.group == group:
+            raise AuthorizationException
+        serializer = GroupEnrollmentSerializer(data=request.data, instance=enrollment)
+        if not serializer.is_valid():
+            return Response(data={'detail': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class GroupEnrollmentDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_group(self, pk):
+        try:
+            group = Group.objects.get(pk=pk, owner=self.request.user)
+            return group
+        except Group.DoesNotExist:
+            raise GroupNotFoundException
+
+    def get_enrollment(self, enrollment_id):
+        try:
+            enrollment = Enrollment.objects.get(pk=enrollment_id)
+            return enrollment
+        except Enrollment.DoesNotExist:
+            raise EnrollmentNotFoundException
+
+    def delete(self, request, pk, enrollment_id):
+        group = self.get_group(pk)
+        enrollment = self.get_enrollment(enrollment_id)
+        if not enrollment.group != group:
+            raise AuthorizationException
+        serializer = GroupEnrollmentSerializer(enrollment)
+        enrollment.delete()
+        return Response(data={'detail': serializer.data}, status=status.HTTP_204_NO_CONTENT)

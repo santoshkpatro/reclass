@@ -141,8 +141,7 @@ class GroupEnrollmentDeleteView(APIView):
     def delete(self, request, pk, enrollment_id):
         group = self.get_group(pk)
         enrollment = self.get_enrollment(enrollment_id)
-        if not enrollment.group != group:
+        if not enrollment.group == group:
             raise AuthorizationException
-        serializer = GroupEnrollmentSerializer(enrollment)
         enrollment.delete()
-        return Response(data={'detail': serializer.data}, status=status.HTTP_204_NO_CONTENT)
+        return Response(data={'detail': 'Enrollment removed'}, status=status.HTTP_204_NO_CONTENT)

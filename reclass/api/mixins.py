@@ -22,11 +22,11 @@ class GroupEnrolledMixin:
 
 class GroupMixin:
     def get_group(self):
-        group_id = self.request.query_params.get('group_id', None)
-        if group_id is None:
+        group_code = self.request.query_params.get('group_code', None)
+        if group_code is None:
             raise GroupNotFoundException
         try:
-            group = Group.active_objects.get(pk=group_id)
+            group = Group.active_objects.get(code=group_code)
             return group
         except Group.DoesNotExist:
             raise GroupNotFoundException

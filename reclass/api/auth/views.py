@@ -1,11 +1,11 @@
 import uuid
 from django.contrib.auth import authenticate
 from django.utils import timezone
-from rest_framework import status
+from rest_framework import status, generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
-from reclass.api.auth.serializers import LoginSerializer, PasswordResetSerializer
+from reclass.api.auth.serializers import LoginSerializer, PasswordResetSerializer, ProfileSerializer
 from reclass.models.user import User
 
 
@@ -65,3 +65,12 @@ class PasswordResetView(APIView):
             return Response(data={'detail': 'Password reset success'}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response(data={'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ProfileView(generics.RetrieveAPIView):
+    serializer_class = ProfileSerializer
+    queryset = User.objects.all()
+    permissions = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

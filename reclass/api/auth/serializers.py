@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from reclass.models.user import User
 
 
 class LoginSerializer(serializers.Serializer):
@@ -9,3 +10,14 @@ class LoginSerializer(serializers.Serializer):
 class PasswordResetSerializer(serializers.Serializer):
     password = serializers.CharField(required=True)
     confirm_password = serializers.CharField(required=True)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'email',
+            'first_name',
+            'last_name',
+            'avatar'
+        ]
